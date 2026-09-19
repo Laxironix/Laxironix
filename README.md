@@ -9,56 +9,46 @@
 ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 ```
 
-**Laxironix ($LAX)** is a community-driven token built on the **Solana blockchain**, focused on transparency, accessibility, and community participation.
+## 🚀 About Laxironix
 
-## 🚀 Vision
+**Laxironix ($LAX)** is a community-driven token built on the **Solana blockchain**.
 
-Laxironix aims to build a recognizable community and develop a transparent ecosystem around the $LAX token.
+The project focuses on creating a simple, transparent and accessible token ecosystem while building an active community around $LAX.
 
-The project is built with a simple philosophy:
-
-> **Build openly. Grow together. Stay transparent.**
+> **Built on Solana. Driven by the community.**
 
 ## 🪙 Tokenomics
 
-| Allocation                |   Supply |
-| ------------------------- | -------: |
-| Founder / Project Reserve |  **50%** |
-| Community & Liquidity     |  **50%** |
-| **Total Supply**          | **100%** |
+The final token supply and allocation will be announced before the official launch.
 
-### Founder / Project Reserve
+The project plans to maintain a clear separation between:
 
-50% of the total supply is held by the founder as a long-term project reserve.
+* 🏗️ Project / Founder allocation
+* 💧 Liquidity
+* 🌐 Community allocation
+* 🚀 Future ecosystem development
 
-This allocation may be used for:
+All final allocations will be publicly communicated and verifiable on-chain.
 
-* Project development
-* Future liquidity management
-* Partnerships
-* Ecosystem initiatives
-* Marketing and community growth
-* Future project expenses
+## 💧 Liquidity
 
-The founder allocation does **not** represent a guarantee that the token will maintain value or remain active indefinitely.
+Liquidity will be established at launch according to the project's available resources and launch strategy.
 
-All major wallet movements should remain publicly verifiable on-chain.
+The objective is to provide a transparent starting market while allowing the ecosystem to develop progressively.
 
-## ⚡ Why Solana?
-
-Laxironix is built on Solana, taking advantage of its fast transaction infrastructure and low transaction costs.
+Liquidity conditions may change over time, and no specific level of liquidity or token value is guaranteed.
 
 ## 🔍 Transparency
 
-We believe transparency is essential for a crypto project.
+Laxironix is committed to making important token information publicly verifiable.
 
-Users should be able to independently verify:
+This includes, where applicable:
 
 * Token supply
-* Token holders
-* Wallet balances
+* Major wallet allocations
+* Liquidity information
 * On-chain transactions
-* Major project wallet movements
+* Contract information
 
 ## 🗺️ Roadmap
 
@@ -66,47 +56,48 @@ Users should be able to independently verify:
 
 * Token creation
 * Initial liquidity
-* GitHub repository
+* GitHub documentation
 * Community channels
-* Project documentation
+* Official project information
 
 ### Phase 2 — Community
 
-* Community growth
+* Community building
 * Social media presence
-* Marketing initiatives
-* Community engagement
+* Marketing
+* Community events and initiatives
 
-### Phase 3 — Ecosystem
+### Phase 3 — Development
 
-* Website development
+* Official website
 * Community tools
-* Partnerships
-* Additional ecosystem initiatives
+* Ecosystem development
+* Potential partnerships and integrations
 
 ### Phase 4 — Expansion
 
-* Further development
-* New integrations
-* Long-term ecosystem growth
+* Continued development
+* New ecosystem initiatives
+* Community growth
+* Long-term project development
 
 ## 🌐 Official Links
 
 * **Website:** Coming soon
 * **X / Twitter:** Coming soon
 * **Telegram:** Coming soon
-* **Solana Contract Address:** Coming soon
+* **Contract Address:** Coming soon
 
 ## 📜 Disclaimer
 
-Laxironix is a cryptocurrency project and $LAX is a highly speculative digital asset.
+Laxironix is a cryptocurrency project and $LAX is a speculative digital asset.
 
-Nothing in this repository should be interpreted as financial advice, an investment recommendation, or a guarantee of future value, liquidity, or returns.
+This repository does not constitute financial advice or a promise of future value, liquidity or returns.
 
-Always conduct your own research before interacting with $LAX.
+Always do your own research before buying or interacting with $LAX.
 
 ---
 
-### ⚡ LAXIRONIX
+## ⚡ LAXIRONIX
 
 **Built on Solana. Driven by the community.**
