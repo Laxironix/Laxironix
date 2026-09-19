@@ -1,1522 +1,1859 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Laxironix ($LAX) — Built on Solana. Driven by the Community.</title>
-<meta name="description" content="Laxironix ($LAX) is a community-driven token built on the Solana blockchain. 100,000,000 total supply. Transparent, on-chain verifiable." />
-<link rel="icon" href="logo.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
-/* ============================================================
-   LAXIRONIX — CORE STYLES
-   ============================================================ */
-:root{
-  --bg:#06060a;
-  --bg-2:#0b0b13;
-  --panel:rgba(255,255,255,.035);
-  --panel-2:rgba(255,255,255,.06);
-  --border:rgba(255,255,255,.08);
-  --border-strong:rgba(255,255,255,.16);
-  --text:#f2f2f7;
-  --muted:#9a9aae;
-  --muted-2:#6e6e83;
-  --purple:#9945FF;
-  --purple-soft:#b47bff;
-  --green:#14F195;
-  --green-soft:#5cffb9;
-  --grad:linear-gradient(135deg,#9945FF 0%,#14F195 100%);
-  --grad-soft:linear-gradient(135deg,rgba(153,69,255,.18),rgba(20,241,149,.18));
-  --radius:18px;
-  --radius-sm:12px;
-  --shadow:0 24px 60px -20px rgba(0,0,0,.75);
-  --glow-purple:0 0 60px -10px rgba(153,69,255,.55);
-  --glow-green:0 0 60px -10px rgba(20,241,149,.45);
-  --maxw:1180px;
-}
-
-*,*::before,*::after{box-sizing:border-box;}
-html{scroll-behavior:smooth;scroll-padding-top:88px;}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  font-size:16px;
-  line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-img{max-width:100%;display:block;}
-a{color:inherit;text-decoration:none;}
-button{font-family:inherit;}
-h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif;line-height:1.15;margin:0;letter-spacing:-.02em;}
-p{margin:0;}
-::selection{background:rgba(153,69,255,.4);}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:10px;}
-::-webkit-scrollbar-track{background:#08080d;}
-::-webkit-scrollbar-thumb{background:#23233a;border-radius:10px;}
-::-webkit-scrollbar-thumb:hover{background:#33334f;}
-
-/* ============================================================
-   LAYOUT HELPERS
-   ============================================================ */
-.container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px;}
-.section{padding:110px 0;position:relative;}
-.section--tight{padding:80px 0;}
-.gradient-text{
-  background:var(--grad);
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
-}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--green-soft);
-  padding:7px 14px;border-radius:999px;
-  background:rgba(20,241,149,.07);
-  border:1px solid rgba(20,241,149,.22);
-  margin-bottom:22px;
-}
-.eyebrow .dot{
-  width:6px;height:6px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 10px var(--green);
-  animation:pulse 2s infinite;
-}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
-
-.section-head{max-width:720px;margin-bottom:60px;}
-.section-head.center{margin-left:auto;margin-right:auto;text-align:center;}
-.section-head h2{font-size:clamp(2rem,4.2vw,3rem);margin-bottom:18px;}
-.section-head p{color:var(--muted);font-size:1.05rem;}
-
-/* ============================================================
-   SCROLL PROGRESS
-   ============================================================ */
-#progress{
-  position:fixed;top:0;left:0;height:2px;width:0%;
-  background:var(--grad);z-index:1000;
-  box-shadow:0 0 12px rgba(153,69,255,.8);
-  transition:width .1s linear;
-}
-
-/* ============================================================
-   HEADER / NAV
-   ============================================================ */
-header{
-  position:fixed;top:0;left:0;right:0;z-index:900;
-  transition:background .35s ease,backdrop-filter .35s ease,border-color .35s ease,padding .35s ease;
-  border-bottom:1px solid transparent;
-  padding:14px 0;
-}
-header.scrolled{
-  background:rgba(6,6,10,.78);
-  backdrop-filter:blur(18px) saturate(160%);
-  -webkit-backdrop-filter:blur(18px) saturate(160%);
-  border-bottom-color:var(--border);
-  padding:8px 0;
-}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;}
-.brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.12rem;letter-spacing:-.02em;}
-.brand img{
-  width:38px;height:38px;border-radius:11px;object-fit:cover;
-  border:1px solid var(--border-strong);
-  background:#0d0d16;
-  box-shadow:0 0 22px -6px rgba(153,69,255,.6);
-}
-.brand span.sub{
-  font-size:.62rem;font-weight:600;letter-spacing:.14em;color:var(--muted-2);
-  display:block;line-height:1;margin-top:2px;text-transform:uppercase;
-}
-.nav-links{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0;}
-.nav-links a{
-  font-size:.875rem;font-weight:500;color:var(--muted);
-  padding:9px 14px;border-radius:10px;transition:.22s;
-}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06);}
-.nav-cta{display:flex;align-items:center;gap:12px;}
-
-.burger{
-  display:none;background:none;border:1px solid var(--border);
-  width:42px;height:42px;border-radius:11px;cursor:pointer;
-  flex-direction:column;justify-content:center;align-items:center;gap:5px;
-}
-.burger span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:.28s;}
-.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-.burger.open span:nth-child(2){opacity:0;}
-.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  font-size:.9rem;font-weight:600;letter-spacing:-.01em;
-  padding:13px 24px;border-radius:12px;border:1px solid transparent;
-  cursor:pointer;transition:.25s;white-space:nowrap;position:relative;overflow:hidden;
-}
-.btn-primary{
-  background:var(--grad);color:#06060a;
-  box-shadow:0 8px 30px -10px rgba(153,69,255,.8);
-}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(153,69,255,.95);}
-.btn-ghost{
-  background:rgba(255,255,255,.04);color:var(--text);border-color:var(--border-strong);
-}
-.btn-ghost:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.28);transform:translateY(-2px);}
-.btn-sm{padding:10px 18px;font-size:.83rem;}
-.btn svg{width:16px;height:16px;flex-shrink:0;}
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero{
-  position:relative;padding:170px 0 110px;overflow:hidden;
-}
-.hero::before{
-  content:"";position:absolute;inset:0;
-  background:
-    radial-gradient(900px 500px at 12% 8%, rgba(153,69,255,.22), transparent 62%),
-    radial-gradient(760px 460px at 88% 22%, rgba(20,241,149,.14), transparent 62%),
-    radial-gradient(1200px 700px at 50% 110%, rgba(153,69,255,.12), transparent 70%);
-  pointer-events:none;
-}
-.grid-bg{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
-  background-size:62px 62px;
-  mask-image:radial-gradient(ellipse 85% 65% at 50% 32%,#000 20%,transparent 78%);
-  -webkit-mask-image:radial-gradient(ellipse 85% 65% at 50% 32%,#000 20%,transparent 78%);
-  pointer-events:none;
-}
-.orb{
-  position:absolute;border-radius:50%;filter:blur(90px);opacity:.4;pointer-events:none;
-  animation:float 16s ease-in-out infinite;
-}
-.orb.p{width:440px;height:440px;background:#9945FF;top:-140px;left:-120px;}
-.orb.g{width:380px;height:380px;background:#14F195;top:40px;right:-140px;animation-delay:-6s;opacity:.24;}
-@keyframes float{
-  0%,100%{transform:translate(0,0) scale(1);}
-  50%{transform:translate(40px,-34px) scale(1.08);}
-}
-
-.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center;}
-.hero h1{
-  font-size:clamp(2.7rem,6.2vw,4.6rem);
-  font-weight:700;margin-bottom:24px;letter-spacing:-.035em;
-}
-.hero h1 .line2{display:block;}
-.hero p.lead{
-  font-size:1.12rem;color:var(--muted);max-width:560px;margin-bottom:36px;
-}
-.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:44px;}
-
-.hero-badges{display:flex;flex-wrap:wrap;gap:10px;}
-.badge{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:.76rem;font-weight:600;color:var(--muted);
-  padding:8px 14px;border-radius:999px;
-  background:rgba(255,255,255,.035);
-  border:1px solid var(--border);
-}
-.badge svg{width:13px;height:13px;color:var(--green);}
-
-/* Logo showcase */
-.logo-stage{
-  position:relative;display:flex;align-items:center;justify-content:center;
-  aspect-ratio:1;max-width:420px;margin:0 auto;width:100%;
-}
-.logo-ring{
-  position:absolute;inset:0;border-radius:50%;
-  border:1px dashed rgba(255,255,255,.13);
-  animation:spin 44s linear infinite;
-}
-.logo-ring.r2{inset:11%;border-style:solid;border-color:rgba(153,69,255,.22);animation-duration:30s;animation-direction:reverse;}
-.logo-ring.r3{inset:22%;border-color:rgba(20,241,149,.16);animation-duration:22s;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.logo-core{
-  position:relative;width:52%;aspect-ratio:1;border-radius:50%;
-  background:var(--grad-soft);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:var(--glow-purple),var(--glow-green),inset 0 0 40px rgba(255,255,255,.05);
-  animation:breathe 6s ease-in-out infinite;
-}
-@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.045);}}
-.logo-core img{
-  width:74%;height:74%;object-fit:contain;border-radius:24px;
-  filter:drop-shadow(0 10px 30px rgba(0,0,0,.6));
-}
-.logo-core::after{
-  content:"";position:absolute;inset:-14%;border-radius:50%;
-  border:1px solid rgba(255,255,255,.07);
-}
-.orbit-dot{
-  position:absolute;width:11px;height:11px;border-radius:50%;
-  background:var(--green);box-shadow:0 0 16px var(--green);
-  top:50%;left:-5px;margin-top:-5px;
-}
-.logo-ring.r2 .orbit-dot{background:var(--purple);box-shadow:0 0 16px var(--purple);}
-
-/* ============================================================
-   TICKER
-   ============================================================ */
-.ticker{
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  background:linear-gradient(90deg,rgba(153,69,255,.06),rgba(20,241,149,.06));
-  overflow:hidden;padding:16px 0;position:relative;
-}
-.ticker::before,.ticker::after{
-  content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
-}
-.ticker::before{left:0;background:linear-gradient(90deg,var(--bg),transparent);}
-.ticker::after{right:0;background:linear-gradient(270deg,var(--bg),transparent);}
-.ticker-track{
-  display:flex;gap:46px;width:max-content;
-  animation:marquee 34s linear infinite;
-}
-.ticker:hover .ticker-track{animation-play-state:paused;}
-@keyframes marquee{to{transform:translateX(-50%);}}
-.ticker-item{
-  display:flex;align-items:center;gap:10px;
-  font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;
-}
-.ticker-item b{color:var(--text);font-weight:700;}
-.ticker-item .sep{color:var(--green);font-size:.7rem;}
-
-/* ============================================================
-   STATS
-   ============================================================ */
-.stats{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
-  margin-top:70px;position:relative;z-index:2;
-}
-.stat{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:var(--radius);padding:26px 22px;
-  transition:.3s;position:relative;overflow:hidden;
-}
-.stat::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--grad);opacity:0;transition:.3s;
-}
-.stat:hover{transform:translateY(-4px);border-color:var(--border-strong);background:var(--panel-2);}
-.stat:hover::before{opacity:1;}
-.stat .num{
-  font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;
-  letter-spacing:-.03em;line-height:1.1;margin-bottom:6px;
-}
-.stat .lbl{font-size:.78rem;color:var(--muted-2);text-transform:uppercase;letter-spacing:.13em;font-weight:600;}
-
-/* ============================================================
-   CARDS / GRIDS
-   ============================================================ */
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
-
-.card{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:var(--radius);padding:34px 30px;
-  transition:.35s;position:relative;overflow:hidden;
-}
-.card:hover{
-  transform:translateY(-5px);
-  border-color:var(--border-strong);
-  background:var(--panel-2);
-  box-shadow:var(--shadow);
-}
-.card .icon{
-  width:50px;height:50px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--grad-soft);border:1px solid var(--border);
-  margin-bottom:22px;
-}
-.card .icon svg{width:22px;height:22px;color:var(--green);}
-.card h3{font-size:1.18rem;margin-bottom:12px;}
-.card p{color:var(--muted);font-size:.94rem;}
-
-/* ============================================================
-   TOKENOMICS
-   ============================================================ */
-.tokenomics-wrap{
-  display:grid;grid-template-columns:.85fr 1.15fr;gap:70px;align-items:center;
-}
-.donut-holder{display:flex;flex-direction:column;align-items:center;gap:26px;}
-.donut{
-  width:290px;height:290px;border-radius:50%;position:relative;
-  background:conic-gradient(from -90deg,#9945FF 0% 50%,#14F195 50% 100%);
-  box-shadow:0 0 70px -18px rgba(153,69,255,.75);
-  display:flex;align-items:center;justify-content:center;
-}
-.donut::after{
-  content:"";position:absolute;inset:-16px;border-radius:50%;
-  border:1px dashed rgba(255,255,255,.1);
-  animation:spin 40s linear infinite;
-}
-.donut-inner{
-  width:66%;height:66%;border-radius:50%;
-  background:radial-gradient(circle at 50% 40%,#111119,#06060a);
-  border:1px solid var(--border);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  position:relative;z-index:2;
-}
-.donut-inner .v{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;font-weight:700;letter-spacing:-.03em;}
-.donut-inner .l{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);font-weight:600;}
-.donut-legend{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}
-.legend-item{display:flex;align-items:center;gap:9px;font-size:.85rem;color:var(--muted);}
-.legend-swatch{width:12px;height:12px;border-radius:4px;}
-.legend-swatch.p{background:var(--purple);box-shadow:0 0 12px rgba(153,69,255,.9);}
-.legend-swatch.g{background:var(--green);box-shadow:0 0 12px rgba(20,241,149,.9);}
-
-.alloc-list{display:flex;flex-direction:column;gap:18px;}
-.alloc{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:var(--radius);padding:26px 28px;transition:.3s;
-}
-.alloc:hover{border-color:var(--border-strong);background:var(--panel-2);transform:translateX(5px);}
-.alloc-head{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:10px;flex-wrap:wrap;}
-.alloc-head h3{font-size:1.1rem;}
-.alloc-head .pct{
-  font-family:'Space Grotesk',sans-serif;font-size:1.45rem;font-weight:700;letter-spacing:-.03em;
-}
-.alloc p{color:var(--muted);font-size:.92rem;}
-.bar{height:5px;border-radius:99px;background:rgba(255,255,255,.07);margin-top:18px;overflow:hidden;}
-.bar span{display:block;height:100%;width:0;border-radius:99px;transition:width 1.4s cubic-bezier(.2,.8,.2,1);}
-.bar.p span{background:linear-gradient(90deg,#9945FF,#b47bff);}
-.bar.g span{background:linear-gradient(90deg,#0fbf78,#14F195);}
-
-.note{
-  margin-top:26px;padding:20px 24px;border-radius:var(--radius-sm);
-  background:rgba(153,69,255,.06);border:1px solid rgba(153,69,255,.22);
-  font-size:.9rem;color:var(--muted);
-}
-.note strong{color:var(--text);}
-
-/* ============================================================
-   TRANSPARENCY
-   ============================================================ */
-.transparency{position:relative;}
-.transparency::before{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(800px 420px at 50% 0%, rgba(20,241,149,.08), transparent 65%);
-  pointer-events:none;
-}
-.check-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px;}
-.check-list li{display:flex;gap:14px;align-items:flex-start;}
-.check-list .tick{
-  flex-shrink:0;width:24px;height:24px;border-radius:50%;
-  background:rgba(20,241,149,.12);border:1px solid rgba(20,241,149,.35);
-  display:flex;align-items:center;justify-content:center;margin-top:2px;
-}
-.check-list .tick svg{width:12px;height:12px;color:var(--green);}
-.check-list p{color:var(--muted);font-size:.95rem;}
-.check-list strong{color:var(--text);font-weight:600;}
-
-.ca-box{
-  background:linear-gradient(135deg,rgba(153,69,255,.09),rgba(20,241,149,.07));
-  border:1px solid var(--border-strong);border-radius:var(--radius);
-  padding:26px;display:flex;flex-direction:column;gap:14px;
-}
-.ca-label{font-size:.7rem;letter-spacing:.17em;text-transform:uppercase;color:var(--muted-2);font-weight:700;}
-.ca-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.ca-value{
-  font-family:'Space Grotesk',ui-monospace,monospace;font-size:.95rem;
-  word-break:break-all;color:var(--text);
-  background:rgba(0,0,0,.35);border:1px solid var(--border);
-  padding:12px 16px;border-radius:10px;flex:1;min-width:200px;
-}
-.ca-value.pending{color:var(--muted-2);font-style:italic;font-family:'Inter',sans-serif;}
-
-/* ============================================================
-   ROADMAP
-   ============================================================ */
-.timeline{position:relative;padding-left:34px;}
-.timeline::before{
-  content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;
-  background:linear-gradient(180deg,rgba(153,69,255,.8),rgba(20,241,149,.5),transparent);
-}
-.tl-item{position:relative;padding-bottom:42px;}
-.tl-item:last-child{padding-bottom:0;}
-.tl-item::before{
-  content:"";position:absolute;left:-33px;top:6px;width:16px;height:16px;border-radius:50%;
-  background:var(--bg);border:2px solid var(--purple);
-  box-shadow:0 0 0 5px rgba(153,69,255,.12);
-}
-.tl-item.done::before{border-color:var(--green);background:var(--green);box-shadow:0 0 0 5px rgba(20,241,149,.14),0 0 18px rgba(20,241,149,.7);}
-.tl-phase{
-  display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--green-soft);margin-bottom:8px;
-}
-.tl-item h3{font-size:1.15rem;margin-bottom:10px;}
-.tl-item p{color:var(--muted);font-size:.94rem;}
-
-/* ============================================================
-   STEPS
-   ============================================================ */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:step;}
-.step{
-  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
-  padding:30px 24px;position:relative;transition:.32s;
-}
-.step:hover{transform:translateY(-5px);border-color:var(--border-strong);background:var(--panel-2);}
-.step-num{
-  font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;
-  width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  background:var(--grad);color:#06060a;margin-bottom:18px;
-}
-.step h3{font-size:1.02rem;margin-bottom:9px;}
-.step p{color:var(--muted);font-size:.88rem;}
-
-/* ============================================================
-   FAQ
-   ============================================================ */
-.faq-list{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
-.faq-item{
-  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-sm);
-  overflow:hidden;transition:.3s;
-}
-.faq-item.open{border-color:rgba(153,69,255,.4);background:rgba(153,69,255,.045);}
-.faq-q{
-  width:100%;background:none;border:0;color:var(--text);cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  padding:22px 26px;font-size:1rem;font-weight:600;text-align:left;
-  font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;
-}
-.faq-q .chev{
-  flex-shrink:0;width:26px;height:26px;border-radius:8px;
-  border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;
-  transition:.3s;
-}
-.faq-q .chev svg{width:12px;height:12px;color:var(--muted);transition:.3s;}
-.faq-item.open .chev{background:var(--grad);border-color:transparent;transform:rotate(180deg);}
-.faq-item.open .chev svg{color:#06060a;}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.2,.8,.2,1);}
-.faq-a-inner{padding:0 26px 24px;color:var(--muted);font-size:.94rem;}
-
-/* ============================================================
-   CTA BANNER
-   ============================================================ */
-.cta-banner{
-  position:relative;border-radius:26px;overflow:hidden;
-  border:1px solid var(--border-strong);
-  background:
-    radial-gradient(600px 300px at 15% 20%, rgba(153,69,255,.28), transparent 60%),
-    radial-gradient(600px 300px at 85% 80%, rgba(20,241,149,.2), transparent 60%),
-    rgba(255,255,255,.03);
-  padding:76px 50px;text-align:center;
-}
-.cta-banner h2{font-size:clamp(1.9rem,4vw,2.9rem);margin-bottom:18px;}
-.cta-banner p{color:var(--muted);max-width:600px;margin:0 auto 36px;font-size:1.04rem;}
-.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer{border-top:1px solid var(--border);padding:70px 0 40px;background:#050509;}
-.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:44px;margin-bottom:54px;}
-.footer-brand .brand{margin-bottom:18px;}
-.footer-brand p{color:var(--muted-2);font-size:.9rem;max-width:320px;}
-.footer-col h4{
-  font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted-2);font-weight:700;margin-bottom:18px;
-}
-.footer-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
-.footer-col a{color:var(--muted);font-size:.9rem;transition:.22s;}
-.footer-col a:hover{color:var(--green);}
-
-.disclaimer{
-  border:1px solid var(--border);border-radius:var(--radius-sm);
-  background:rgba(255,255,255,.02);padding:22px 26px;margin-bottom:34px;
-}
-.disclaimer h4{
-  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  color:#ffb4b4;font-weight:700;margin-bottom:10px;
-}
-.disclaimer p{font-size:.82rem;color:var(--muted-2);line-height:1.7;}
-
-.footer-bottom{
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  padding-top:28px;border-top:1px solid var(--border);flex-wrap:wrap;
-}
-.footer-bottom p{font-size:.82rem;color:var(--muted-2);}
-.socials{display:flex;gap:10px;}
-.socials a{
-  width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.04);border:1px solid var(--border);transition:.25s;
-}
-.socials a:hover{background:var(--grad);border-color:transparent;transform:translateY(-3px);}
-.socials a svg{width:16px;height:16px;color:var(--muted);transition:.25s;}
-.socials a:hover svg{color:#06060a;}
-
-/* ============================================================
-   REVEAL ANIMATIONS
-   ============================================================ */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.2,.8,.2,1),transform .75s cubic-bezier(.2,.8,.2,1);}
-.reveal.visible{opacity:1;transform:none;}
-.reveal.d1{transition-delay:.08s;}
-.reveal.d2{transition-delay:.16s;}
-.reveal.d3{transition-delay:.24s;}
-.reveal.d4{transition-delay:.32s;}
-
-/* Toast */
-.toast{
-  position:fixed;bottom:28px;left:50%;transform:translate(-50%,90px);
-  background:#111119;border:1px solid var(--border-strong);border-radius:12px;
-  padding:13px 22px;font-size:.86rem;font-weight:600;z-index:1100;
-  display:flex;align-items:center;gap:10px;opacity:0;transition:.4s cubic-bezier(.2,.8,.2,1);
-  box-shadow:var(--shadow);
-}
-.toast.show{transform:translate(-50%,0);opacity:1;}
-.toast svg{width:15px;height:15px;color:var(--green);}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width:1024px){
-  .hero-inner{grid-template-columns:1fr;gap:56px;text-align:center;}
-  .hero p.lead{margin-left:auto;margin-right:auto;}
-  .hero-actions,.hero-badges{justify-content:center;}
-  .logo-stage{max-width:330px;order:-1;}
-  .tokenomics-wrap{grid-template-columns:1fr;gap:56px;}
-  .grid-3{grid-template-columns:repeat(2,1fr);}
-  .steps{grid-template-columns:repeat(2,1fr);}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:36px;}
-}
-@media (max-width:820px){
-  .nav-links{
-    position:fixed;top:66px;left:16px;right:16px;
-    flex-direction:column;align-items:stretch;gap:4px;
-    background:rgba(10,10,16,.96);backdrop-filter:blur(20px);
-    border:1px solid var(--border-strong);border-radius:16px;padding:14px;
-    opacity:0;visibility:hidden;transform:translateY(-12px);transition:.3s;
-    box-shadow:var(--shadow);
-  }
-  .nav-links.open{opacity:1;visibility:visible;transform:none;}
-  .nav-links a{padding:13px 16px;font-size:.95rem;}
-  .burger{display:flex;}
-  .nav-cta .btn-primary{display:none;}
-}
-@media (max-width:640px){
-  .section{padding:80px 0;}
-  .hero{padding:130px 0 80px;}
-  .stats{grid-template-columns:1fr 1fr;gap:14px;}
-  .grid-3,.grid-2,.steps{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr;}
-  .cta-banner{padding:52px 24px;}
-  .donut{width:230px;height:230px;}
-  .container{padding:0 18px;}
-  .card{padding:28px 22px;}
-  .alloc{padding:22px;}
-  .footer-bottom{justify-content:center;text-align:center;}
-}
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
-  html{scroll-behavior:auto;}
-}
-</style>
-</head>
-<body>
-
-<div id="progress"></div>
-
-<!-- ============================ HEADER ============================ -->
-<header id="header">
-  <div class="container nav">
-    <a href="#home" class="brand">
-      <img src="nino.png" alt="Laxironix logo" id="brandLogo">
-      <div>
-        Laxironix
-        <span class="sub">$LAX · Solana</span>
-      </div>
-    </a>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#tokenomics">Tokenomics</a></li>
-      <li><a href="#transparency">Transparency</a></li>
-      <li><a href="#roadmap">Roadmap</a></li>
-      <li><a href="#howtobuy">How to Buy</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-
-    <div class="nav-cta">
-      <a href="#howtobuy" class="btn btn-primary btn-sm">
-        Buy $LAX
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <button class="burger" id="burger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<!-- ============================ HERO ============================ -->
-<section class="hero" id="home">
-  <div class="grid-bg"></div>
-  <div class="orb p"></div>
-  <div class="orb g"></div>
-
-  <div class="container hero-inner">
-    <div class="hero-copy">
-      <div class="eyebrow reveal"><span class="dot"></span> Live on the Solana Blockchain</div>
-
-      <h1 class="reveal d1">
-        Laxironix
-        <span class="line2 gradient-text">Built on Solana.</span>
-        <span class="line2">Driven by the community.</span>
-      </h1>
-
-      <p class="lead reveal d2">
-        $LAX is a community-driven token running on Solana's high-speed, low-fee network.
-        A fixed supply of 100,000,000 tokens, a clear allocation model, and on-chain
-        transparency that anyone can verify — no fine print.
-      </p>
-
-      <div class="hero-actions reveal d3">
-        <a href="#howtobuy" class="btn btn-primary">
-          Get Started with $LAX
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href="#tokenomics" class="btn btn-ghost">
-          View Tokenomics
-        </a>
-      </div>
-
-      <div class="hero-badges reveal d4">
-        <span class="badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          Fixed Supply
-        </span>
-        <span class="badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          On-Chain Verifiable
-        </span>
-        <span class="badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          Community First
-        </span>
-      </div>
-    </div>
-
-    <div class="logo-stage reveal d2">
-      <div class="logo-ring r3"></div>
-      <div class="logo-ring r2"><span class="orbit-dot"></span></div>
-      <div class="logo-ring r1"><span class="orbit-dot"></span></div>
-      <div class="logo-core">
-        <img src="logo.png" alt="Laxironix emblem" id="heroLogo">
-      </div>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="container">
-    <div class="stats">
-      <div class="stat reveal">
-        <div class="num gradient-text" data-count="100000000" data-format="compact">0</div>
-        <div class="lbl">Total Supply</div>
-      </div>
-      <div class="stat reveal d1">
-        <div class="num" data-count="50" data-suffix="%">0</div>
-        <div class="lbl">Community &amp; Liquidity</div>
-      </div>
-      <div class="stat reveal d2">
-        <div class="num" data-count="50" data-suffix="%">0</div>
-        <div class="lbl">Project Reserve</div>
-      </div>
-      <div class="stat reveal d3">
-        <div class="num gradient-text">Solana</div>
-        <div class="lbl">Network</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ TICKER ============================ -->
-<div class="ticker">
-  <div class="ticker-track" id="tickerTrack">
-    <!-- filled by JS (duplicated for seamless loop) -->
-  </div>
-</div>
-
-<!-- ============================ ABOUT ============================ -->
-<section class="section" id="about">
-  <div class="container">
-    <div class="section-head center reveal">
-      <div class="eyebrow"><span class="dot"></span> What is Laxironix</div>
-      <h2>A token built on <span class="gradient-text">clarity</span>, not hype.</h2>
-      <p>
-        Laxironix is a community-driven token built on the Solana blockchain.
-        It exists for the people who hold it — with a simple structure, an open
-        ledger, and communication that doesn't hide behind jargon.
-      </p>
-    </div>
-
-    <div class="grid-3">
-      <div class="card reveal">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
-        <h3>Powered by Solana</h3>
-        <p>
-          Solana delivers fast settlement and near-zero transaction fees. That means
-          $LAX transfers stay quick and cheap — built for real community activity,
-          not just holding.
-        </p>
-      </div>
-
-      <div class="card reveal d1">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3>Community Driven</h3>
-        <p>
-          Half of the total supply is allocated to the community and liquidity.
-          Laxironix grows through the people who participate — holders, builders,
-          and supporters who show up every day.
-        </p>
-      </div>
-
-      <div class="card reveal d2">
-        <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3>Transparent by Design</h3>
-        <p>
-          Every allocation, every major wallet, every movement — publicly verifiable
-          on-chain. You never have to take our word for it. You can check it yourself.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ TOKENOMICS ============================ -->
-<section class="section" id="tokenomics" style="background:linear-gradient(180deg,transparent,rgba(153,69,255,.035),transparent);">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="eyebrow"><span class="dot"></span> Tokenomics</div>
-      <h2>Simple supply. <span class="gradient-text">Clear split.</span></h2>
-      <p>
-        The entire Laxironix supply is fixed at 100,000,000 $LAX — no hidden minting,
-        no complicated vesting tables you need a spreadsheet to understand.
-      </p>
-    </div>
-
-    <div class="tokenomics-wrap">
-      <div class="donut-holder reveal">
-        <div class="donut" id="donut">
-          <div class="donut-inner">
-            <div class="v gradient-text">100M</div>
-            <div class="l">Total Supply</div>
-          </div>
-        </div>
-        <div class="donut-legend">
-          <div class="legend-item"><span class="legend-swatch p"></span> Founder / Project Reserve — 50%</div>
-          <div class="legend-item"><span class="legend-swatch g"></span> Community &amp; Liquidity — 50%</div>
-        </div>
-      </div>
-
-      <div class="reveal d1">
-        <div class="alloc-list">
-          <div class="alloc">
-            <div class="alloc-head">
-              <h3>Founder / Project Reserve</h3>
-              <div class="pct gradient-text">50%</div>
-            </div>
-            <p>
-              Retained as a long-term project reserve. It may be used for future
-              development, liquidity management, ecosystem initiatives, partnerships,
-              and other project-related needs.
-            </p>
-            <div class="bar p"><span data-width="50"></span></div>
-          </div>
-
-          <div class="alloc">
-            <div class="alloc-head">
-              <h3>Community &amp; Liquidity</h3>
-              <div class="pct gradient-text">50%</div>
-            </div>
-            <p>
-              Dedicated to the community and to liquidity. This portion supports
-              trading availability, community growth, and the people who make
-              Laxironix what it is.
-            </p>
-            <div class="bar g"><span data-width="50"></span></div>
-          </div>
-
-          <div class="note">
-            <strong>Note:</strong> All token allocations and movements should remain
-            publicly verifiable on-chain. Anyone can audit the supply and the major
-            wallets at any time using a Solana block explorer.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ TRANSPARENCY ============================ -->
-<section class="section transparency" id="transparency">
-  <div class="container">
-    <div class="section-head center reveal">
-      <div class="eyebrow"><span class="dot"></span> Transparency</div>
-      <h2>Don't trust. <span class="gradient-text">Verify.</span></h2>
-      <p>
-        Our goal is to build Laxironix with clear communication and transparent
-        on-chain activity. Holders should always be able to verify the token supply
-        and major wallet allocations themselves.
-      </p>
-    </div>
-
-    <div class="grid-2" style="align-items:start;">
-      <div class="reveal">
-        <ul class="check-list">
-          <li>
-            <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-            <p><strong>Fixed total supply.</strong> 100,000,000 $LAX — the number is public and unchanging.</p>
-          </li>
-          <li>
-            <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-            <p><strong>Open allocations.</strong> The 50 / 50 split between the project reserve and the community is stated openly.</p>
-          </li>
-          <li>
-            <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-            <p><strong>Verifiable on-chain.</strong> Supply and major wallet allocations can be checked by anyone on a Solana explorer.</p>
-          </li>
-          <li>
-            <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-            <p><strong>Clear communication.</strong> Updates and project information are shared openly with the community.</p>
-          </li>
-          <li>
-            <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-            <p><strong>No promises of returns.</strong> We describe what the project is — never what it will be worth.</p>
-          </li>
-        </ul>
-      </div>
-
-      <div class="reveal d1">
-        <div class="ca-box">
-          <div class="ca-label">Contract Address (Solana)</div>
-          <div class="ca-row">
-            <div class="ca-value pending" id="caValue">Coming Soon</div>
-            <button class="btn btn-ghost btn-sm" id="copyCa">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Copy
-            </button>
-          </div>
-          <p style="font-size:.85rem;color:var(--muted-2);">
-            Always double-check the contract address from official Laxironix channels
-            before making any transaction. Never trust a random link.
-          </p>
-          <div class="ca-row" style="margin-top:4px;">
-            <a href="https://solscan.io" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
-              View on Solscan
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ ROADMAP ============================ -->
-<section class="section" id="roadmap" style="background:linear-gradient(180deg,transparent,rgba(20,241,149,.03),transparent);">
-  <div class="container">
-    <div class="section-head center reveal">
-      <div class="eyebrow"><span class="dot"></span> Roadmap</div>
-      <h2>The plan, <span class="gradient-text">phase by phase.</span></h2>
-      <p>A simple, honest outline of where Laxironix is heading. No inflated promises — just clear steps.</p>
-    </div>
-
-    <div style="max-width:760px;margin:0 auto;">
-      <div class="timeline">
-        <div class="tl-item done reveal">
-          <div class="tl-phase">Phase 01 — Foundation</div>
-          <h3>Token Creation &amp; Launch</h3>
-          <p>
-            Deploy $LAX on Solana with a fixed supply of 100,000,000 tokens.
-            Establish the 50 / 50 allocation between the project reserve and
-            the community &amp; liquidity portion.
-          </p>
-        </div>
-
-        <div class="tl-item done reveal d1">
-          <div class="tl-phase">Phase 02 — Community</div>
-          <h3>Community Building</h3>
-          <p>
-            Grow an active, engaged community around Laxironix. Open the channels,
-            share the vision, and give holders a place to talk, ask questions, and
-            follow along.
-          </p>
-        </div>
-
-        <div class="tl-item reveal d2">
-          <div class="tl-phase">Phase 03 — Visibility</div>
-          <h3>Transparency &amp; Liquidity</h3>
-          <p>
-            Publish the contract address and allocation details for everyone to verify.
-            Support healthy liquidity so holders can trade freely and comfortably.
-          </p>
-        </div>
-
-        <div class="tl-item reveal d3">
-          <div class="tl-phase">Phase 04 — Growth</div>
-          <h3>Ecosystem &amp; Partnerships</h3>
-          <p>
-            Explore ecosystem initiatives, collaborations, and project-related
-            opportunities that can bring real value to the Laxironix community
-            over the long term.
-          </p>
-        </div>
-
-        <div class="tl-item reveal d4">
-          <div class="tl-phase">Phase 05 — Long Term</div>
-          <h3>Continuous Development</h3>
-          <p>
-            Keep building. The project reserve exists precisely for this — future
-            development, liquidity management, and whatever the next chapter of
-            Laxironix requires.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ HOW TO BUY ============================ -->
-<section class="section" id="howtobuy">
-  <div class="container">
-    <div class="section-head center reveal">
-      <div class="eyebrow"><span class="dot"></span> How to Buy</div>
-      <h2>Four steps to <span class="gradient-text">your first $LAX.</span></h2>
-      <p>Getting started on Solana is fast. Here's the short version.</p>
-    </div>
-
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">01</div>
-        <h3>Get a Solana Wallet</h3>
-        <p>Download a wallet that supports Solana — such as Phantom or Solflare — and set it up securely. Keep your seed phrase private, always.</p>
-      </div>
-
-      <div class="step reveal d1">
-        <div class="step-num">02</div>
-        <h3>Fund with SOL</h3>
-        <p>Buy SOL from an exchange and send it to your wallet address. You'll need a small amount of SOL for the swap and network fees.</p>
-      </div>
-
-      <div class="step reveal d2">
-        <div class="step-num">03</div>
-        <h3>Swap for $LAX</h3>
-        <p>Open a Solana DEX, paste the official $LAX contract address, and swap your SOL for Laxironix tokens.</p>
-      </div>
-
-      <div class="step reveal d3">
-        <div class="step-num">04</div>
-        <h3>Join the Community</h3>
-        <p>You're in. Follow the official channels, stay updated, and be part of what Laxironix is building.</p>
-      </div>
-    </div>
-
-    <div class="note reveal" style="max-width:760px;margin:40px auto 0;text-align:center;">
-      <strong>Safety first:</strong> Always verify the contract address from official
-      Laxironix channels. Scammers create fake tokens with similar names — double-check
-      before you swap.
-    </div>
-  </div>
-</section>
-
-<!-- ============================ FAQ ============================ -->
-<section class="section" id="faq" style="background:linear-gradient(180deg,transparent,rgba(153,69,255,.035),transparent);">
-  <div class="container">
-    <div class="section-head center reveal">
-      <div class="eyebrow"><span class="dot"></span> FAQ</div>
-      <h2>Questions, <span class="gradient-text">answered.</span></h2>
-    </div>
-
-    <div class="faq-list">
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          What is Laxironix?
-          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </button>
-        <div class="faq-a"><div class="faq-a-inner">
-          Laxironix is a community-driven token built on the Solana blockchain. It runs
-          under the ticker $LAX and has a fixed total supply of 100,000,000 tokens.
-        </div></div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          What is the total supply of $LAX?
-          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </button>
-        <div class="faq-a"><div class="faq-a-inner">
-          The total supply is 100,000,000 $LAX. It's split 50 / 50: 50% is retained as
-          the Founder / Project Reserve, and 50% is dedicated to Community &amp; Liquidity.
-        </div></div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          What is the founder allocation used for?
-          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </button>
-        <div class="faq-a"><div class="faq-a-inner">
-          The 50% founder allocation is retained as a long-term project reserve. It may be
-          used for future development, liquidity management, ecosystem initiatives,
-          partnerships, and other project-related needs.
-        </div></div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          How can I verify the token supply and allocations?
-          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </button>
-        <div class="faq-a"><div class="faq-a-inner">
-          All token allocations and movements should remain publicly verifiable on-chain.
-          You can look up the $LAX contract address on any Solana block explorer to check
-          the supply and the major wallet allocations yourself.
-        </div></div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          Which blockchain does Laxironix run on?
-          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </button>
-        <div class="faq-a"><div class="faq-a-inner">
-          Laxironix is built on Solana, chosen for its fast transaction speeds and
-          low network fees — which makes it well suited for community activity.
-        </div></div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          Is $LAX an investment?
-          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </button>
-        <div class="faq-a"><div class="faq-a-inner">
-          No. Cryptocurrency is speculative. Nothing in this project description
-          guarantees value, liquidity, or future returns. Please conduct your own
-          research before participating, and never spend more than you can afford to lose.
-        </div></div>
-      </div>
-
-      <div class="faq-item reveal">
-        <button class="faq-q">
-          Where can I follow Laxironix updates?
-          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </button>
-        <div class="faq-a"><div class="faq-a-inner">
-          Official updates are shared through the Laxironix community channels — X
-          (Twitter), Telegram, and Discord. Always confirm you're in the official
-          channel before acting on any information.
-        </div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ CTA ============================ -->
-<section class="section section--tight">
-  <div class="container">
-    <div class="cta-banner reveal">
-      <h2>Laxironix — Built on Solana.<br><span class="gradient-text">Driven by the community.</span></h2>
-      <p>
-        A fixed supply. A clear split. An open ledger. Join a token that puts
-        transparency first and lets you verify everything yourself.
-      </p>
-      <div class="cta-actions">
-        <a href="#howtobuy" class="btn btn-primary">
-          Buy $LAX
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href="#transparency" class="btn btn-ghost">Check Transparency</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ FOOTER ============================ -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="#home" class="brand">
-          <img src="logo.png" alt="Laxironix logo" id="footerLogo">
-          <div>
-            Laxironix
-            <span class="sub">$LAX · Solana</span>
-          </div>
-        </a>
-        <p>
-          A community-driven token built on the Solana blockchain. Transparent
-          allocations, verifiable on-chain, and driven by the people who hold it.
-        </p>
-      </div>
-
-      <div class="footer-col">
-        <h4>Project</h4>
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#tokenomics">Tokenomics</a></li>
-          <li><a href="#transparency">Transparency</a></li>
-          <li><a href="#roadmap">Roadmap</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Get Started</h4>
-        <ul>
-          <li><a href="#howtobuy">How to Buy</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#transparency">Contract Address</a></li>
-          <li><a href="https://solscan.io" target="_blank" rel="noopener">Solscan</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Community</h4>
-        <ul>
-          <li><a href="#" target="_blank" rel="noopener">X (Twitter)</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Telegram</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Discord</a></li>
-          <li><a href="#" target="_blank" rel="noopener">DexScreener</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="disclaimer">
-      <h4>Risk Disclaimer</h4>
-      <p>
-        Cryptocurrency is speculative. Nothing in this project description guarantees
-        value, liquidity, or future returns. Please conduct your own research before
-        participating. Nothing on this website constitutes financial, investment, legal,
-        or tax advice. $LAX is a community token with no guarantee of utility, listing,
-        or market activity. Always verify contract addresses through official channels
-        and never share your seed phrase or private keys with anyone.
-      </p>
-    </div>
-
-    <div class="footer-bottom">
-      <p>© <span id="year"></span> Laxironix ($LAX). All rights reserved.</p>
-      <div class="socials">
-        <a href="#" aria-label="X" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-7.1L4.8 22H1.7l8-9.2L1 2h7.1l4.9 6.5L18.9 2Zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20Z"/></svg>
-        </a>
-        <a href="#" aria-label="Telegram" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.5c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13.2l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.3c.9-.3 1.6.2 1.5 1.4Z"/></svg>
-        </a>
-        <a href="#" aria-label="Discord" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5a14.6 14.6 0 0 1 4.3 2.2 13.9 13.9 0 0 0-11-.5l-.4.5A19.7 19.7 0 0 0 3.6 4.4C.3 9.3-.6 14.1.2 18.8a19.9 19.9 0 0 0 6 3l.8-1.3a13 13 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4a13 13 0 0 1-2 1l.8 1.3a19.8 19.8 0 0 0 6-3c.9-5.4-.3-10.2-2.7-14.4ZM8.3 15.6c-1.2 0-2.1-1.1-2.1-2.4S7.1 10.8 8.3 10.8s2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4Zm7.4 0c-1.2 0-2.1-1.1-2.1-2.4s.9-2.4 2.1-2.4 2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4Z"/></svg>
-        </a>
-        <a href="https://solscan.io" aria-label="Solscan" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18M3 12h18"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- Toast -->
-<div class="toast" id="toast">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-  <span id="toastMsg">Copied!</span>
-</div>
-
+<!-- ═══════════════════════════════════════════════════════════════
+     STEP 3 — ADD THIS JAVASCRIPT BEFORE </body>
+     ═══════════════════════════════════════════════════════════════ -->
 <script>
-/* ============================================================
-   LAXIRONIX — SCRIPTS
-   ============================================================ */
+/* ================================================================
+   LAXIRONIX AI ASSISTANT — LAX-BOT v2.0
+   A self-contained knowledge + tools + code engine.
+   ================================================================ */
 (function () {
   'use strict';
 
-  /* ---------- Logo fallback (if logo.png is missing) ---------- */
-  var FALLBACK_SVG = 'data:image/svg+xml;utf8,' + encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">' +
-    '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
-    '<stop offset="0%" stop-color="#9945FF"/><stop offset="100%" stop-color="#14F195"/>' +
-    '</linearGradient></defs>' +
-    '<rect width="200" height="200" rx="48" fill="#0b0b13"/>' +
-    '<path d="M60 145 L100 45 L140 145" stroke="url(#g)" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<path d="M78 112 H122" stroke="url(#g)" stroke-width="14" stroke-linecap="round"/>' +
-    '</svg>'
-  );
+  /* ---------------------------------------------------------------
+     CONFIG & STATE
+     --------------------------------------------------------------- */
+  var CFG = {
+    name: 'LAX Assistant',
+    storageKey: 'laxbot_history_v2',
+    prefsKey: 'laxbot_prefs_v2',
+    maxHistory: 150,
+    fallbackLogo: 'data:image/svg+xml;utf8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0%" stop-color="#9945FF"/><stop offset="100%" stop-color="#14F195"/>' +
+      '</linearGradient></defs>' +
+      '<rect width="200" height="200" rx="48" fill="#0b0b13"/>' +
+      '<path d="M60 145 L100 45 L140 145" stroke="url(#g)" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M78 112 H122" stroke="url(#g)" stroke-width="14" stroke-linecap="round"/></svg>'
+    )
+  };
 
-  document.querySelectorAll('img[src="logo.png"]').forEach(function (img) {
-    img.addEventListener('error', function () {
-      if (img.dataset.fallbackApplied) return;
-      img.dataset.fallbackApplied = '1';
-      img.src = FALLBACK_SVG;
-    }, { once: true });
-  });
+  var state = {
+    open: false,
+    messages: [],
+    context: {},
+    sound: false,
+    sidebar: false,
+    palette: false,
+    paletteSel: 0,
+    listening: false,
+    waiting: false,
+    unread: 0,
+    recognition: null
+  };
 
-  /* ---------- Scroll progress bar ---------- */
-  var progress = document.getElementById('progress');
-  function updateProgress() {
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var pct = h > 0 ? (window.scrollY / h) * 100 : 0;
-    progress.style.width = pct + '%';
+  /* ---------------------------------------------------------------
+     DOM SHORTCUTS
+     --------------------------------------------------------------- */
+  function $(id) { return document.getElementById(id); }
+  var elPanel, elFab, elBody, elInput, elSend, elMic, elChips,
+      elSidebar, elPalette, elPaletteInput, elPaletteList,
+      elToast, elToastMsg, elBadge, elStatusText, elHintRight;
+
+  /* ---------------------------------------------------------------
+     UTILITIES
+     --------------------------------------------------------------- */
+  function uid() { return 'm_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7); }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  /* ---------- Header state ---------- */
-  var header = document.getElementById('header');
-  function updateHeader() {
-    if (window.scrollY > 24) header.classList.add('scrolled');
-    else header.classList.remove('scrolled');
+  function normalize(s) {
+    return String(s || '').toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\w\s$%+\-*/^().,]/g, ' ')
+      .replace(/\s+/g, ' ').trim();
   }
 
-  var ticking = false;
-  window.addEventListener('scroll', function () {
-    if (!ticking) {
-      window.requestAnimationFrame(function () {
-        updateProgress();
-        updateHeader();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
-  updateProgress();
-  updateHeader();
-
-  /* ---------- Mobile nav ---------- */
-  var burger = document.getElementById('burger');
-  var navLinks = document.getElementById('navLinks');
-
-  burger.addEventListener('click', function () {
-    burger.classList.toggle('open');
-    navLinks.classList.toggle('open');
-  });
-
-  navLinks.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      burger.classList.remove('open');
-      navLinks.classList.remove('open');
-    });
-  });
-
-  /* ---------- Reveal on scroll ---------- */
-  var revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add('visible'); });
+  function timeLabel(ts) {
+    var d = new Date(ts);
+    var h = d.getHours(), m = d.getMinutes();
+    return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
   }
 
-  /* ---------- Animated counters ---------- */
-  function formatCompact(n) {
-    if (n >= 1000000) return (n / 1000000).toFixed(0) + 'M';
-    if (n >= 1000) return (n / 1000).toFixed(0) + 'K';
-    return String(n);
+  function formatNum(n) {
+    if (typeof n !== 'number' || !isFinite(n)) return String(n);
+    return n.toLocaleString('en-US', { maximumFractionDigits: 6 });
   }
 
-  function animateCount(el) {
-    var target = parseFloat(el.dataset.count);
-    var suffix = el.dataset.suffix || '';
-    var useCompact = el.dataset.format === 'compact';
-    var duration = 1600;
-    var start = null;
-
-    function step(ts) {
-      if (start === null) start = ts;
-      var p = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      var current = Math.floor(target * eased);
-      if (useCompact) el.textContent = formatCompact(current);
-      else el.textContent = current.toLocaleString('en-US') + suffix;
-      if (p < 1) requestAnimationFrame(step);
-      else {
-        if (useCompact) el.textContent = formatCompact(target);
-        else el.textContent = target.toLocaleString('en-US') + suffix;
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
-  var counters = document.querySelectorAll('[data-count]');
-  if ('IntersectionObserver' in window) {
-    var cio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          animateCount(entry.target);
-          cio.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-    counters.forEach(function (el) { cio.observe(el); });
-  } else {
-    counters.forEach(animateCount);
-  }
-
-  /* ---------- Donut chart animation ---------- */
-  var donut = document.getElementById('donut');
-  var donutDone = false;
-  function animateDonut() {
-    if (donutDone) return;
-    donutDone = true;
-    var duration = 1500;
-    var start = null;
-    function frame(ts) {
-      if (start === null) start = ts;
-      var p = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      var a = 50 * eased;
-      donut.style.background =
-        'conic-gradient(from -90deg, #9945FF 0% ' + a + '%, #14F195 ' + a + '% 100%)';
-      if (p < 1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-
-  /* ---------- Allocation bars ---------- */
-  var bars = document.querySelectorAll('.bar span');
-  function fillBars() {
-    bars.forEach(function (bar) {
-      bar.style.width = bar.dataset.width + '%';
-    });
-  }
-
-  if ('IntersectionObserver' in window) {
-    var dio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          animateDonut();
-          dio.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.35 });
-    if (donut) dio.observe(donut);
-
-    var bio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          fillBars();
-          bio.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    if (bars.length) bio.observe(bars[0].closest('.alloc-list'));
-  } else {
-    animateDonut();
-    fillBars();
-  }
-
-  /* ---------- FAQ accordion ---------- */
-  document.querySelectorAll('.faq-item').forEach(function (item) {
-    var btn = item.querySelector('.faq-q');
-    var panel = item.querySelector('.faq-a');
-
-    btn.addEventListener('click', function () {
-      var isOpen = item.classList.contains('open');
-
-      // close all
-      document.querySelectorAll('.faq-item.open').forEach(function (other) {
-        other.classList.remove('open');
-        other.querySelector('.faq-a').style.maxHeight = null;
-      });
-
-      if (!isOpen) {
-        item.classList.add('open');
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-      }
-    });
-  });
-
-  /* ---------- Copy contract address ---------- */
-  var copyBtn = document.getElementById('copyCa');
-  var caValue = document.getElementById('caValue');
-  var toast = document.getElementById('toast');
-  var toastMsg = document.getElementById('toastMsg');
-  var toastTimer;
-
-  function showToast(msg) {
-    toastMsg.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () {
-      toast.classList.remove('show');
-    }, 2200);
-  }
-
-  copyBtn.addEventListener('click', function () {
-    var text = caValue.textContent.trim();
-    if (!text || caValue.classList.contains('pending')) {
-      showToast('Contract address coming soon');
-      return;
-    }
+  function copyText(text) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        showToast('Contract address copied');
-      }).catch(function () {
-        showToast('Copy failed — please copy manually');
-      });
-    } else {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (res, rej) {
       var ta = document.createElement('textarea');
       ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta);
       ta.select();
-      try { document.execCommand('copy'); showToast('Contract address copied'); }
-      catch (e) { showToast('Copy failed — please copy manually'); }
-      document.body.removeChild(ta);
-    }
-  });
-
-  /* ---------- Ticker content ---------- */
-  var tickerTrack = document.getElementById('tickerTrack');
-  var tickerItems = [
-    '<b>$LAX</b> · Laxironix',
-    'Total Supply <b>100,000,000</b>',
-    'Network <b>Solana</b>',
-    'Community &amp; Liquidity <b>50%</b>',
-    'Project Reserve <b>50%</b>',
-    'Built on Solana · <b>Driven by the Community</b>',
-    'On-Chain <b>Verifiable</b>'
-  ];
-  var sep = '<span class="sep">◆</span>';
-
-  var half = tickerItems.map(function (t) {
-    return '<div class="ticker-item">' + t + sep + '</div>';
-  }).join('');
-
-  tickerTrack.innerHTML = half + half;
-
-  /* ---------- Year ---------- */
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* ---------- Smooth anchor offset for older browsers ---------- */
-  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      var id = link.getAttribute('href');
-      if (id === '#' || id.length < 2) return;
-      var target = document.querySelector(id);
-      if (!target) return;
-      e.preventDefault();
-      var top = target.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: top, behavior: 'smooth' });
-      history.replaceState(null, '', id);
+      try { document.execCommand('copy'); res(); }
+      catch (e) { rej(e); }
+      finally { document.body.removeChild(ta); }
     });
-  });
+  }
+
+  function showToast(msg) {
+    elToastMsg.textContent = msg;
+    elToast.classList.add('lb-show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function () {
+      elToast.classList.remove('lb-show');
+    }, 1900);
+  }
+
+  /* ---------------------------------------------------------------
+     MARKDOWN-LITE RENDERER
+     --------------------------------------------------------------- */
+  function renderMarkdown(text) {
+    if (!text) return '';
+    var blocks = [];
+    // Extract fenced code blocks
+    var src = String(text).replace(/```(\w+)?\n?([\s\S]*?)```/g, function (m, lang, code) {
+      var idx = blocks.length;
+      blocks.push({ lang: (lang || 'code').toLowerCase(), code: code.replace(/^\n+|\n+$/g, '') });
+      return '\u0000B' + idx + '\u0000';
+    });
+
+    src = escapeHtml(src);
+
+    // Inline code
+    src = src.replace(/`([^`\n]+)`/g, '<code class="lb-inline">$1</code>');
+    // Bold
+    src = src.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    // Italic
+    src = src.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+    // Links
+    src = src.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+
+    // Lists (group consecutive <li> into <ul>)
+    var lines = src.split('\n');
+    var out = [];
+    var inList = false;
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      var m = line.match(/^[ \t]*[-•]\s+(.+)$/);
+      if (m) {
+        if (!inList) { out.push('<ul>'); inList = true; }
+        out.push('<li>' + m[1] + '</li>');
+      } else {
+        if (inList) { out.push('</ul>'); inList = false; }
+        out.push(line);
+      }
+    }
+    if (inList) out.push('</ul>');
+    src = out.join('\n');
+    // Collapse newlines around lists
+    src = src.replace(/<\/li>\n/g, '</li>').replace(/<ul>\n/g, '<ul>').replace(/\n<\/ul>/g, '</ul>');
+    // Line breaks
+    src = src.replace(/\n/g, '<br>');
+
+    // Restore code blocks
+    src = src.replace(/\u0000B(\d+)\u0000/g, function (m, i) {
+      var b = blocks[+i];
+      return '<div class="lb-code">' +
+        '<div class="lb-code-head">' +
+          '<span class="lb-code-lang">' + escapeHtml(b.lang) + '</span>' +
+          '<button class="lb-code-copy" type="button">Copy</button>' +
+        '</div>' +
+        '<pre><code>' + escapeHtml(b.code) + '</code></pre>' +
+      '</div>';
+    });
+
+    return src;
+  }
+
+  /* ---------------------------------------------------------------
+     MATH EVALUATOR (safe recursive descent)
+     --------------------------------------------------------------- */
+  var MATH_CONST = { pi: Math.PI, e: Math.E, tau: Math.PI * 2 };
+  var MATH_FN = {
+    sqrt: Math.sqrt, cbrt: Math.cbrt, abs: Math.abs,
+    sin: Math.sin, cos: Math.cos, tan: Math.tan,
+    asin: Math.asin, acos: Math.acos, atan: Math.atan,
+    log: Math.log10, ln: Math.log, log2: Math.log2, exp: Math.exp,
+    round: Math.round, floor: Math.floor, ceil: Math.ceil,
+    min: Math.min, max: Math.max, pow: Math.pow, sign: Math.sign
+  };
+
+  function tokenizeMath(str) {
+    var tokens = [], i = 0, c;
+    while (i < str.length) {
+      c = str[i];
+      if (/\s/.test(c)) { i++; continue; }
+      if (/[0-9]/.test(c) || (c === '.' && /[0-9]/.test(str[i + 1] || ''))) {
+        var j = i;
+        while (j < str.length && /[0-9.]/.test(str[j])) j++;
+        var num = parseFloat(str.slice(i, j));
+        if (isNaN(num)) throw new Error('Invalid number');
+        tokens.push({ t: 'num', v: num });
+        i = j; continue;
+      }
+      if (/[a-zA-Z_]/.test(c)) {
+        var k = i;
+        while (k < str.length && /[a-zA-Z0-9_]/.test(str[k])) k++;
+        tokens.push({ t: 'id', v: str.slice(i, k).toLowerCase() });
+        i = k; continue;
+      }
+      if ('+-*/%^(),'.indexOf(c) !== -1) {
+        tokens.push({ t: 'p', v: c });
+        i++; continue;
+      }
+      throw new Error('Unexpected character: ' + c);
+    }
+    return tokens;
+  }
+
+  function evalMath(input) {
+    var tokens = tokenizeMath(input);
+    var pos = 0;
+    function peek() { return tokens[pos]; }
+    function next() { return tokens[pos++]; }
+
+    function parseExpr() {
+      var left = parseTerm();
+      while (peek() && (peek().v === '+' || peek().v === '-')) {
+        var op = next().v;
+        var right = parseTerm();
+        left = op === '+' ? left + right : left - right;
+      }
+      return left;
+    }
+    function parseTerm() {
+      var left = parsePower();
+      while (peek() && (peek().v === '*' || peek().v === '/' || peek().v === '%')) {
+        var op = next().v;
+        var right = parsePower();
+        if (op === '*') left *= right;
+        else if (op === '/') { if (right === 0) throw new Error('Division by zero'); left /= right; }
+        else left %= right;
+      }
+      return left;
+    }
+    function parsePower() {
+      var base = parseUnary();
+      if (peek() && peek().v === '^') { next(); return Math.pow(base, parsePower()); }
+      return base;
+    }
+    function parseUnary() {
+      if (peek() && peek().v === '-') { next(); return -parseUnary(); }
+      if (peek() && peek().v === '+') { next(); return parseUnary(); }
+      return parsePrimary();
+    }
+    function parsePrimary() {
+      var tk = next();
+      if (!tk) throw new Error('Unexpected end of expression');
+      if (tk.t === 'num') return tk.v;
+      if (tk.t === 'id') {
+        if (peek() && peek().v === '(') {
+          next();
+          var args = [];
+          if (peek() && peek().v !== ')') {
+            args.push(parseExpr());
+            while (peek() && peek().v === ',') { next(); args.push(parseExpr()); }
+          }
+          if (!peek() || peek().v !== ')') throw new Error('Missing )');
+          next();
+          var fn = MATH_FN[tk.v];
+          if (!fn) throw new Error('Unknown function: ' + tk.v);
+          return fn.apply(null, args);
+        }
+        if (MATH_CONST[tk.v] !== undefined) return MATH_CONST[tk.v];
+        throw new Error('Unknown identifier: ' + tk.v);
+      }
+      if (tk.v === '(') {
+        var val = parseExpr();
+        if (!peek() || peek().v !== ')') throw new Error('Missing )');
+        next();
+        return val;
+      }
+      throw new Error('Unexpected token: ' + tk.v);
+    }
+
+    var result = parseExpr();
+    if (pos < tokens.length) throw new Error('Unexpected token: ' + tokens[pos].v);
+    if (!isFinite(result)) throw new Error('Result is not finite');
+    return result;
+  }
+
+  /* ---------------------------------------------------------------
+     CODE SNIPPETS LIBRARY (Code Lab)
+     --------------------------------------------------------------- */
+  var SNIPPETS = {
+    'connect': {
+      label: 'Connect Phantom Wallet',
+      lang: 'javascript',
+      code: [
+        "import { Connection, clusterApiUrl } from '@solana/web3.js';",
+        "",
+        "const connection = new Connection(",
+        "  clusterApiUrl('mainnet-beta'),",
+        "  'confirmed'",
+        ");",
+        "",
+        "async function connectWallet() {",
+        "  const provider = window.solana;",
+        "  if (!provider || !provider.isPhantom) {",
+        "    throw new Error('Phantom wallet not found');",
+        "  }",
+        "  const resp = await provider.connect();",
+        "  const publicKey = resp.publicKey.toString();",
+        "  console.log('Connected:', publicKey);",
+        "  return publicKey;",
+        "}",
+        "",
+        "connectWallet().catch(console.error);"
+      ].join('\n')
+    },
+    'balance': {
+      label: 'Get SOL Balance',
+      lang: 'javascript',
+      code: [
+        "import {",
+        "  Connection, PublicKey,",
+        "  LAMPORTS_PER_SOL, clusterApiUrl",
+        "} from '@solana/web3.js';",
+        "",
+        "const connection = new Connection(",
+        "  clusterApiUrl('mainnet-beta'), 'confirmed'",
+        ");",
+        "",
+        "async function getSolBalance(address) {",
+        "  const pubkey = new PublicKey(address);",
+        "  const lamports = await connection.getBalance(pubkey);",
+        "  return lamports / LAMPORTS_PER_SOL;",
+        "}",
+        "",
+        "getSolBalance('YOUR_WALLET_ADDRESS')",
+        "  .then(b => console.log('SOL:', b));"
+      ].join('\n')
+    },
+    'tokenbalance': {
+      label: 'Get SPL Token Balance',
+      lang: 'javascript',
+      code: [
+        "import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';",
+        "import { getAssociatedTokenAddress, getAccount } from '@solana/spl-token';",
+        "",
+        "const connection = new Connection(",
+        "  clusterApiUrl('mainnet-beta'), 'confirmed'",
+        ");",
+        "",
+        "async function getTokenBalance(wallet, mint) {",
+        "  const owner = new PublicKey(wallet);",
+        "  const tokenMint = new PublicKey(mint);",
+        "  const ata = await getAssociatedTokenAddress(tokenMint, owner);",
+        "  try {",
+        "    const account = await getAccount(connection, ata);",
+        "    return Number(account.amount);",
+        "  } catch (e) {",
+        "    return 0; // no associated token account yet",
+        "  }",
+        "}",
+        "",
+        "getTokenBalance('WALLET', 'MINT').then(console.log);"
+      ].join('\n')
+    },
+    'transfer': {
+      label: 'Transfer SPL Token',
+      lang: 'javascript',
+      code: [
+        "import {",
+        "  Connection, PublicKey, Transaction,",
+        "  clusterApiUrl, sendAndConfirmTransaction",
+        "} from '@solana/web3.js';",
+        "import {",
+        "  getOrCreateAssociatedTokenAccount,",
+        "  createTransferInstruction",
+        "} from '@solana/spl-token';",
+        "",
+        "async function transferToken({",
+        "  connection, payer, mint, to, amount",
+        "}) {",
+        "  const fromAta = await getOrCreateAssociatedTokenAccount(",
+        "    connection, payer, new PublicKey(mint), payer.publicKey",
+        "  );",
+        "  const toAta = await getOrCreateAssociatedTokenAccount(",
+        "    connection, payer, new PublicKey(mint), new PublicKey(to)",
+        "  );",
+        "  const tx = new Transaction().add(",
+        "    createTransferInstruction(",
+        "      fromAta.address, toAta.address,",
+        "      payer.publicKey, amount",
+        "    )",
+        "  );",
+        "  return sendAndConfirmTransaction(connection, tx, [payer]);",
+        "}"
+      ].join('\n')
+    },
+    'jupiter': {
+      label: 'Jupiter Swap Quote',
+      lang: 'javascript',
+      code: [
+        "// Get a swap quote from Jupiter aggregator",
+        "const SOL_MINT = 'So11111111111111111111111111111111111111112';",
+        "",
+        "async function getQuote(inputMint, outputMint, amountLamports) {",
+        "  const url = new URL('https://quote-api.jup.ag/v6/quote');",
+        "  url.searchParams.set('inputMint', inputMint);",
+        "  url.searchParams.set('outputMint', outputMint);",
+        "  url.searchParams.set('amount', String(amountLamports));",
+        "  url.searchParams.set('slippageBps', '50');",
+        "",
+        "  const res = await fetch(url);",
+        "  if (!res.ok) throw new Error('Quote failed');",
+        "  return res.json();",
+        "}",
+        "",
+        "// Example: 0.1 SOL -> $LAX",
+        "getQuote(SOL_MINT, 'LAX_MINT_ADDRESS', 100_000_000)",
+        "  .then(q => console.log('Out:', q.outAmount));"
+      ].join('\n')
+    },
+    'createToken': {
+      label: 'Create an SPL Token',
+      lang: 'javascript',
+      code: [
+        "import { Keypair, SystemProgram, Transaction, sendAndConfirmTransaction } from '@solana/web3.js';",
+        "import {",
+        "  createInitializeMintInstruction,",
+        "  getMinimumBalanceForRentExemptMint,",
+        "  MINT_SIZE, TOKEN_PROGRAM_ID",
+        "} from '@solana/spl-token';",
+        "",
+        "async function createMint(connection, payer, decimals = 9) {",
+        "  const mint = Keypair.generate();",
+        "  const lamports = await getMinimumBalanceForRentExemptMint(connection);",
+        "",
+        "  const tx = new Transaction().add(",
+        "    SystemProgram.createAccount({",
+        "      fromPubkey: payer.publicKey,",
+        "      newAccountPubkey: mint.publicKey,",
+        "      space: MINT_SIZE,",
+        "      lamports,",
+        "      programId: TOKEN_PROGRAM_ID",
+        "    }),",
+        "    createInitializeMintInstruction(",
+        "      mint.publicKey, decimals,",
+        "      payer.publicKey, payer.publicKey",
+        "    )",
+        "  );",
+        "",
+        "  await sendAndConfirmTransaction(connection, tx, [payer, mint]);",
+        "  return mint.publicKey.toString();",
+        "}"
+      ].join('\n')
+    },
+    'pyBalance': {
+      label: 'Python — Wallet Balance',
+      lang: 'python',
+      code: [
+        "from solana.rpc.api import Client",
+        "from solders.pubkey import Pubkey",
+        "from solders.commitment_config import CommitmentLevel",
+        "",
+        "RPC = 'https://api.mainnet-beta.solana.com'",
+        "client = Client(RPC)",
+        "",
+        "def get_balance(address: str) -> float:",
+        "    pubkey = Pubkey.from_string(address)",
+        "    resp = client.get_balance(pubkey, commitment=CommitmentLevel.Confirmed)",
+        "    return resp.value / 1_000_000_000",
+        "",
+        "if __name__ == '__main__':",
+        "    print(get_balance('YOUR_WALLET_ADDRESS'))"
+      ].join('\n')
+    },
+    'pyToken': {
+      label: 'Python — Get Token Balance',
+      lang: 'python',
+      code: [
+        "from solana.rpc.api import Client",
+        "from solders.pubkey import Pubkey",
+        "from spl.token.constants import TOKEN_PROGRAM_ID",
+        "from spl.token.async_client import AsyncToken",
+        "",
+        "RPC = 'https://api.mainnet-beta.solana.com'",
+        "client = Client(RPC)",
+        "",
+        "def token_balance(wallet: str, mint: str) -> int:",
+        "    owner = Pubkey.from_string(wallet)",
+        "    mint_pk = Pubkey.from_string(mint)",
+        "    resp = client.get_token_accounts_by_owner(",
+        "        owner,",
+        "        {'mint': str(mint_pk)},",
+        "        commitment='confirmed',",
+        "    )",
+        "    if not resp.value:",
+        "        return 0",
+        "    # Parse amount from account data with your ATA helper",
+        "    # (See spl-token-py docs for account decoding)",
+        "    return 0",
+        "",
+        "print(token_balance('WALLET', 'MINT'))"
+      ].join('\n')
+    },
+    'react': {
+      label: 'React — Wallet Adapter',
+      lang: 'jsx',
+      code: [
+        "import { useMemo } from 'react';",
+        "import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';",
+        "import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';",
+        "import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';",
+        "import { clusterApiUrl } from '@solana/web3.js';",
+        "import '@solana/wallet-adapter-react-ui/styles.css';",
+        "",
+        "export default function App({ children }) {",
+        "  const endpoint = useMemo(() => clusterApiUrl('mainnet-beta'), []);",
+        "  const wallets = useMemo(() => [new PhantomWalletAdapter()], []);",
+        "",
+        "  return (",
+        "    <ConnectionProvider endpoint={endpoint}>",
+        "      <WalletProvider wallets={wallets} autoConnect>",
+        "        <WalletModalProvider>{children}</WalletModalProvider>",
+        "      </WalletProvider>",
+        "    </ConnectionProvider>",
+        "  );",
+        "}"
+      ].join('\n')
+    }
+  };
+
+  /* ---------------------------------------------------------------
+     KNOWLEDGE BASE — INTENTS
+     Each intent: keywords[], patterns[] (regex), reply(), chips[]
+     --------------------------------------------------------------- */
+  var LAX = {
+    ticker: '$LAX',
+    name: 'Laxironix',
+    supply: 100000000,
+    chain: 'Solana',
+    split: { reserve: 50, community: 50 }
+  };
+
+  var INTENTS = [
+    /* ---------- Greetings & small talk ---------- */
+    {
+      id: 'greet',
+      keywords: ['hello', 'hi', 'hey', 'yo', 'sup', 'good morning', 'good evening', 'howdy', 'hola', 'bonjour'],
+      patterns: [/^\s*(hi|hey|hello|yo|sup)\b/i],
+      weight: 1,
+      reply: function () {
+        return 'Hey there 👋 Welcome to **Laxironix** — I\'m the LAX Assistant.\n\nI can help you with:\n- **$LAX token info** (supply, allocation, chain)\n- **How to buy** on Solana\n- **Wallet security** tips\n- **Code snippets** (JS, Python, React)\n- **Calculators** (tokenomics, price, math)\n\nWhat would you like to explore?';
+      },
+      chips: ['What is Laxironix?', 'Tokenomics', 'How to buy', 'Show me code']
+    },
+    {
+      id: 'thanks',
+      keywords: ['thank', 'thanks', 'thx', 'appreciate', 'cheers', 'merci'],
+      patterns: [/thank/i],
+      reply: function () {
+        return 'You\'re welcome 🙌 Anything else I can help you with?';
+      },
+      chips: ['Tokenomics', 'Wallet safety', 'Roadmap']
+    },
+    {
+      id: 'bye',
+      keywords: ['bye', 'goodbye', 'see you', 'later', 'cya'],
+      patterns: [/^\s*(bye|goodbye)/i],
+      reply: function () {
+        return 'Take care 👋 Remember — always **verify before you trust**, on-chain or off. Come back any time.';
+      },
+      chips: ['Transparency', 'Community links']
+    },
+
+    /* ---------- About Laxironix ---------- */
+    {
+      id: 'about',
+      keywords: ['what is laxironix', 'about laxironix', 'what is lax', 'tell me about', 'laxironix', 'lax', 'project', 'what is this'],
+      patterns: [/what (is|are) (laxironix|lax|\$lax)/i, /tell me about/i],
+      weight: 2,
+      reply: function () {
+        return '**Laxironix** is a community-driven token built on the **Solana blockchain**.\n\n' +
+          'Key facts:\n' +
+          '- **Ticker:** `$LAX`\n' +
+          '- **Network:** Solana (mainnet)\n' +
+          '- **Total supply:** **100,000,000** $LAX\n' +
+          '- **Split:** 50% project reserve · 50% community & liquidity\n' +
+          '- **Philosophy:** transparency first, verifiable on-chain\n\n' +
+          'It\'s designed to be simple, open, and driven by the people who hold it — no inflated promises, just a clear structure you can check yourself.';
+      },
+      chips: ['Tokenomics', 'Transparency', 'Roadmap', 'How to buy']
+    },
+    {
+      id: 'supply',
+      keywords: ['supply', 'total supply', 'how many tokens', 'how much supply', '100 million', '100m'],
+      patterns: [/total supply/i, /how (many|much) (tokens|supply)/i],
+      reply: function () {
+        return '**Total Supply: 100,000,000 $LAX**\n\n' +
+          '- 50% — **Founder / Project Reserve** (long-term project use)\n' +
+          '- 50% — **Community & Liquidity**\n\n' +
+          'The supply is fixed. No hidden minting. You can verify it on any Solana block explorer by looking up the $LAX contract address.';
+      },
+      chips: ['Founder allocation', 'Community allocation', 'Contract address']
+    },
+    {
+      id: 'founder',
+      keywords: ['founder', 'reserve', 'project reserve', 'founder allocation', '50%', 'dev wallet'],
+      patterns: [/founder|reserve/i],
+      reply: function () {
+        return '**Founder / Project Reserve — 50%**\n\n' +
+          'This 50% allocation is retained as a **long-term project reserve**. It may be used for:\n' +
+          '- Future development\n' +
+          '- Liquidity management\n' +
+          '- Ecosystem initiatives\n' +
+          '- Partnerships\n' +
+          '- Other project-related needs\n\n' +
+          'All token allocations and movements **should remain publicly verifiable on-chain**. You can audit the wallet at any time.';
+      },
+      chips: ['Community allocation', 'Transparency', 'Contract address']
+    },
+    {
+      id: 'communityAlloc',
+      keywords: ['community allocation', 'community', 'liquidity', 'community & liquidity', 'other 50'],
+      patterns: [/community.*(alloc|portion|split)/i, /liquidity/i],
+      reply: function () {
+        return '**Community & Liquidity — 50%**\n\n' +
+          'Half of the total supply is dedicated to the community and to liquidity. This portion supports:\n' +
+          '- Trading availability on DEXs\n' +
+          '- Community growth and initiatives\n' +
+          '- The people who make Laxironix what it is\n\n' +
+          'It\'s the community side of the 50 / 50 split.';
+      },
+      chips: ['Founder allocation', 'How to buy', 'Transparency']
+    },
+    {
+      id: 'chain',
+      keywords: ['which chain', 'what chain', 'blockchain', 'solana', 'network', 'which network'],
+      patterns: [/(what|which) (chain|blockchain|network)/i, /on solana/i],
+      reply: function () {
+        return '**Laxironix runs on the Solana blockchain.**\n\n' +
+          'Why Solana?\n' +
+          '- ⚡ Fast transaction finality\n' +
+          '- 💸 Very low fees\n' +
+          '- 🌐 Large ecosystem of wallets and DEXs\n\n' +
+          'You can interact with $LAX using any Solana wallet (Phantom, Solflare, Backpack) and trade on Solana DEXs.';
+      },
+      chips: ['How to buy', 'Wallets', 'Contract address']
+    },
+    {
+      id: 'ticker',
+      keywords: ['ticker', 'symbol', 'lax', '$lax', 'token name'],
+      patterns: [/\$lax/i, /ticker/i, /symbol/i],
+      reply: function () {
+        return 'The token is **Laxironix ($LAX)**.\n\n' +
+          'Always look for **$LAX** and verify the contract address — scammers create copycat tokens with similar names.';
+      },
+      chips: ['Contract address', 'How to buy', 'Safety']
+    },
+
+    /* ---------- Transparency ---------- */
+    {
+      id: 'transparency',
+      keywords: ['transparency', 'transparent', 'verify', 'on-chain', 'onchain', 'audit', 'proof'],
+      patterns: [/transparen/i, /verify|verifiable|audit/i],
+      reply: function () {
+        return '**Transparency is a core principle of Laxironix.**\n\n' +
+          'Our commitments:\n' +
+          '- **Fixed supply** — 100,000,000 $LAX, unchanging\n' +
+          '- **Open allocation** — the 50 / 50 split is stated publicly\n' +
+          '- **On-chain verifiable** — supply and major wallet allocations can be checked by anyone\n' +
+          '- **Clear communication** — updates shared openly with the community\n' +
+          '- **No promises of returns** — we describe what the project *is*, not what it will be worth\n\n' +
+          '**Don\'t trust. Verify.** 🔍';
+      },
+      chips: ['Contract address', 'Tokenomics', 'Safety']
+    },
+    {
+      id: 'contract',
+      keywords: ['contract', 'address', 'ca', 'mint', 'mint address', 'token address'],
+      patterns: [/contract address/i, /\bca\b/i, /mint address/i],
+      reply: function () {
+        return '**Contract Address (Solana)**\n\n' +
+          'The official $LAX contract address is announced on the official Laxironix channels. ' +
+          'If you see "Coming Soon" on the site, the address has not been published yet.\n\n' +
+          '⚠️ **Important:** Always copy the contract address from an **official** Laxironix source. ' +
+          'Never trust a random link, DM, or copycat token. Fake tokens with similar names are common.';
+      },
+      chips: ['Safety', 'How to buy', 'Community links']
+    },
+
+    /* ---------- How to buy ---------- */
+    {
+      id: 'howtobuy',
+      keywords: ['how to buy', 'buy lax', 'buy $lax', 'purchase', 'how do i buy', 'where to buy', 'swap'],
+      patterns: [/how (to|do i) buy/i, /where.*buy/i, /purchase/i],
+      weight: 2,
+      reply: function () {
+        return '**How to buy $LAX — 4 steps**\n\n' +
+          '- **1. Get a Solana wallet** — Phantom, Solflare, or Backpack. Set it up securely.\n' +
+          '- **2. Fund with SOL** — Buy SOL on an exchange and send it to your wallet. Keep a little extra for fees.\n' +
+          '- **3. Swap for $LAX** — On a Solana DEX, paste the **official** $LAX contract address and swap your SOL.\n' +
+          '- **4. Join the community** — Follow the official channels and stay updated.\n\n' +
+          '⚠️ **Safety first:** Always verify the contract address from official channels. Scammers clone tokens with similar names.';
+      },
+      chips: ['Wallets', 'Safety', 'Fees', 'Contract address']
+    },
+    {
+      id: 'wallets',
+      keywords: ['wallet', 'phantom', 'solflare', 'backpack', 'which wallet', 'best wallet'],
+      patterns: [/wallet/i, /phantom|solflare|backpack/i],
+      reply: function () {
+        return '**Recommended Solana wallets**\n\n' +
+          '- **Phantom** — the most popular, clean UI, great for DeFi\n' +
+          '- **Solflare** — solid alternative, supports staking and hardware wallets\n' +
+          '- **Backpack** — modern, xNFT-native wallet\n' +
+          '- **Ledger** — hardware wallet for maximum security on larger holdings\n\n' +
+          '💡 **Golden rule:** Your **seed phrase** is the master key. Never share it, never type it into a website, never store it in a screenshot or cloud note.';
+      },
+      chips: ['Safety', 'How to buy', 'Code lab']
+    },
+    {
+      id: 'fees',
+      keywords: ['fees', 'fee', 'gas', 'cost', 'how much fee', 'transaction fee'],
+      patterns: [/fee|fees|gas/i],
+      reply: function () {
+        return '**Solana fees are extremely low.**\n\n' +
+          'Typical costs:\n' +
+          '- Base transaction fee: ~**0.000005 SOL**\n' +
+          '- Priority fees (optional): usually tiny\n' +
+          '- DEX swap fees: set by the DEX/pool (often ~0.25–0.3%)\n\n' +
+          'Keep a small amount of SOL in your wallet so you never get stuck without gas.';
+      },
+      chips: ['How to buy', 'Wallets']
+    },
+
+    /* ---------- Safety ---------- */
+    {
+      id: 'safety',
+      keywords: ['safety', 'safe', 'scam', 'scammer', 'rug', 'rugpull', 'hack', 'phishing', 'security'],
+      patterns: [/scam|rug|safe|security|phish/i],
+      weight: 2,
+      reply: function () {
+        return '**Staying safe in crypto — the essentials**\n\n' +
+          '- 🔐 **Never share your seed phrase** — not with anyone, ever.\n' +
+          '- ✅ **Always verify the contract address** from official channels before swapping.\n' +
+          '- 🕵️ **Beware of impersonators** — fake accounts, fake support, fake airdrops.\n' +
+          '- 🔗 **Check URLs** — bookmarks beat clicking links in DMs.\n' +
+          '- 💸 **Never sign blind transactions** — read what you\'re signing.\n' +
+          '- 🧊 **Use a hardware wallet** for larger holdings.\n' +
+          '- 🚫 **No one legitimate will DM you first** offering help or "recovery services".\n\n' +
+          'If something feels rushed or too good to be true — it is.';
+      },
+      chips: ['Contract address', 'Wallets', 'How to buy']
+    },
+
+    /* ---------- Community ---------- */
+    {
+      id: 'community',
+      keywords: ['community', 'social', 'twitter', 'x', 'telegram', 'discord', 'links', 'follow'],
+      patterns: [/(social|community|follow)/i, /(twitter|telegram|discord)/i],
+      reply: function () {
+        return '**Join the Laxironix community**\n\n' +
+          '- 🐦 **X (Twitter)** — announcements & updates\n' +
+          '- 💬 **Telegram** — chat with holders\n' +
+          '- 🎮 **Discord** — deeper discussions\n' +
+          '- 📊 **DexScreener** — price & liquidity\n\n' +
+          '⚠️ **Verify the links** from the official site footer before joining. Impersonator groups exist.';
+      },
+      chips: ['Safety', 'Roadmap', 'How to buy']
+    },
+
+    /* ---------- Roadmap ---------- */
+    {
+      id: 'roadmap',
+      keywords: ['roadmap', 'plan', 'future', 'phases', 'what next', 'milestones'],
+      patterns: [/roadmap|plan|future|milestone/i],
+      reply: function () {
+        return '**Laxironix Roadmap**\n\n' +
+          '- **Phase 01 — Foundation:** Token creation & launch on Solana\n' +
+          '- **Phase 02 — Community:** Building an active, engaged community\n' +
+          '- **Phase 03 — Visibility:** Transparency publishing + liquidity support\n' +
+          '- **Phase 04 — Growth:** Ecosystem initiatives & partnerships\n' +
+          '- **Phase 05 — Long Term:** Continuous development via the project reserve\n\n' +
+          'No inflated promises — just a clear, honest plan.';
+      },
+      chips: ['Tokenomics', 'Community links', 'Transparency']
+    },
+
+    /* ---------- Price / market ---------- */
+    {
+      id: 'price',
+      keywords: ['price', 'how much is', 'worth', 'value', 'market cap', 'mcap', 'chart'],
+      patterns: [/price|worth|value|market ?cap/i],
+      reply: function () {
+        return 'I **can\'t give live prices** — I\'m a static assistant with no market data feed, and I won\'t guess.\n\n' +
+          'For live price and liquidity:\n' +
+          '- Check a Solana DEX (Jupiter, Raydium, Orca)\n' +
+          '- Or a tracker like **DexScreener** or **Birdeye**\n\n' +
+          'You can use the built-in **calculator** to work out values yourself — try: `calc 1000000 * 0.005`';
+      },
+      chips: ['Calculator', 'Contract address', 'Safety']
+    },
+
+    /* ---------- Investment / risk ---------- */
+    {
+      id: 'investment',
+      keywords: ['investment', 'invest', 'guaranteed', 'returns', 'profit', 'moon', 'when lambo', 'when moon'],
+      patterns: [/invest|profit|guarantee|moon/i],
+      reply: function () {
+        return '**Honest answer: no, and please be careful.**\n\n' +
+          'Cryptocurrency is **speculative**. Nothing in the Laxironix project description guarantees value, liquidity, or future returns.\n\n' +
+          '- Never invest more than you can afford to lose\n' +
+          '- Do your own research (DYOR)\n' +
+          '- Treat every token — including $LAX — as high risk\n' +
+          '- Be wary of anyone promising "guaranteed" gains; that\'s a red flag\n\n' +
+          'We\'d rather you understand the project than hype it.';
+      },
+      chips: ['Risks', 'Tokenomics', 'Safety']
+    },
+    {
+      id: 'risks',
+      keywords: ['risk', 'risks', 'danger', 'warning', 'downside'],
+      patterns: [/risk/i],
+      reply: function () {
+        return '**Risk disclosure**\n\n' +
+          'Cryptocurrency is speculative. Nothing in the Laxironix project description guarantees value, liquidity, or future returns.\n\n' +
+          'Key risks to understand:\n' +
+          '- **Market risk** — prices can go to zero\n' +
+          '- **Liquidity risk** — you may not be able to sell at your price\n' +
+          '- **Smart contract risk** — bugs or exploits in any on-chain system\n' +
+          '- **Regulatory risk** — rules vary by country\n' +
+          '- **Impersonation risk** — fake tokens and fake channels\n\n' +
+          'Please conduct your own research before participating.';
+      },
+      chips: ['Safety', 'Transparency', 'How to buy']
+    },
+
+    /* ---------- Solana info ---------- */
+    {
+      id: 'solana',
+      keywords: ['solana', 'sol', 'what is solana', 'about solana', 'spl', 'lamports'],
+      patterns: [/solana|about sol/i],
+      reply: function () {
+        return '**Solana — the chain behind $LAX**\n\n' +
+          '- **Consensus:** Proof of History + Proof of Stake\n' +
+          '- **Speed:** ~400ms slots, very high throughput\n' +
+          '- **Fees:** fractions of a cent\n' +
+          '- **Token standard:** SPL (Solana Program Library)\n' +
+          '- **Native asset:** SOL (1 SOL = 1,000,000,000 lamports)\n\n' +
+          'Solana is a great fit for community tokens because transfers are fast and cheap.';
+      },
+      chips: ['Code lab', 'How to buy', 'Wallets']
+    },
+
+    /* ---------- Code lab ---------- */
+    {
+      id: 'code',
+      keywords: ['code', 'code lab', 'snippet', 'snippets', 'programming', 'developer', 'dev', 'api', 'how to code'],
+      patterns: [/code|snippet|develop/i, /(javascript|python|react)/i],
+      weight: 2,
+      reply: function () {
+        var keys = Object.keys(SNIPPETS);
+        var list = keys.map(function (k) { return '- **' + SNIPPETS[k].label + '**'; }).join('\n');
+        return '**Code Lab — Solana development snippets**\n\n' +
+          'Pick one to see the code:\n' + list + '\n\n' +
+          'Or just type: `code connect`, `code balance`, `code jupiter`, etc.';
+      },
+      chips: ['code connect', 'code balance', 'code jupiter', 'code python']
+    },
+
+    /* ---------- Calculator ---------- */
+    {
+      id: 'calc',
+      keywords: ['calc', 'calculate', 'calculator', 'math', 'compute', 'tokenomics calc'],
+      patterns: [/calc|comput|calculate/i],
+      reply: function () {
+        return '**Calculator**\n\n' +
+          'Try:\n' +
+          '- `calc 2 + 2 * 10`\n' +
+          '- `calc sqrt(144)`\n' +
+          '- `calc 100000000 * 0.05`\n' +
+          '- `tokenomics 1000000` (break a $LAX amount into the 50/50 split)\n' +
+          '- `price 1000000 0.005` (value of tokens at a given price)\n\n' +
+          'Supports `+ - * / % ^ ( )`, functions like `sqrt`, `log`, `sin`, `min`, `max`, and constants `pi`, `e`.';
+      },
+      chips: ['calc 100000000 * 0.5', 'tokenomics 5000000', 'price 1000000 0.005']
+    },
+
+    /* ---------- Help ---------- */
+    {
+      id: 'help',
+      keywords: ['help', 'what can you do', 'capabilities', 'commands', 'features', 'menu', 'options'],
+      patterns: [/^help$|what can you/i, /capab|feature/i],
+      weight: 2,
+      reply: function () {
+        return '**I\'m the LAX Assistant — here\'s what I can do**\n\n' +
+          '**📘 Info** — About, tokenomics, supply, chain, roadmap, transparency, community\n' +
+          '**🛒 How to buy** — Step-by-step, wallets, fees\n' +
+          '**🔐 Safety** — Scam detection, seed phrase hygiene, contract verification\n' +
+          '**🧮 Tools** — Math calculator, tokenomics split, price calculator\n' +
+          '**💻 Code Lab** — JS / Python / React snippets for Solana\n' +
+          '**⚡ Commands** — Type `/` for the palette, or use `/help`, `/clear`, `/export`, `/theme`, `/sound`\n\n' +
+          'Just ask in plain English — or tap a chip below.';
+      },
+      chips: ['Tokenomics', 'How to buy', 'Safety', 'Code lab', 'Calculator']
+    },
+
+    /* ---------- Services ---------- */
+    {
+      id: 'services',
+      keywords: ['services', 'service', 'tools', 'what do you offer', 'features'],
+      patterns: [/service|tool/i],
+      reply: function () {
+        return '**Available services** — tap the grid icon (top right) or pick one below:\n\n' +
+          '1. **Token Info** — supply, ticker, chain\n' +
+          '2. **Tokenomics** — 50/50 breakdown\n' +
+          '3. **How to Buy** — 4-step guide\n' +
+          '4. **Wallet Security** — stay safe\n' +
+          '5. **Code Lab** — Solana dev snippets\n' +
+          '6. **Calculator** — math, tokenomics, price\n' +
+          '7. **Roadmap** — the plan ahead\n' +
+          '8. **Community** — where to follow';
+      },
+      chips: ['Token Info', 'Tokenomics', 'How to buy', 'Code lab', 'Calculator']
+    }
+  ];
+
+  /* ---------------------------------------------------------------
+     COMMANDS
+     --------------------------------------------------------------- */
+  var COMMANDS = [
+    { cmd: '/help', desc: 'Show capabilities', icon: 'help', run: function () { return replyIntent('help'); } },
+    { cmd: '/services', desc: 'List all services', icon: 'grid', run: function () { return replyIntent('services'); } },
+    { cmd: '/tokenomics', desc: 'Show tokenomics', icon: 'pie', run: function () { return replyIntent('supply'); } },
+    { cmd: '/buy', desc: 'How to buy $LAX', icon: 'cart', run: function () { return replyIntent('howtobuy'); } },
+    { cmd: '/code', desc: 'Open Code Lab', icon: 'code', run: function () { return replyIntent('code'); } },
+    { cmd: '/wallet', desc: 'Wallet & safety tips', icon: 'shield', run: function () { return replyIntent('safety'); } },
+    { cmd: '/price', desc: 'Price tools', icon: 'tag', run: function () { return replyIntent('price'); } },
+    { cmd: '/calc', desc: 'Open calculator', icon: 'calc', run: function () { return replyIntent('calc'); } },
+    { cmd: '/clear', desc: 'Clear conversation', icon: 'trash', run: function () { clearChat(); return null; } },
+    { cmd: '/export', desc: 'Export chat as text', icon: 'download', run: function () { exportChat(); return null; } },
+    { cmd: '/theme', desc: 'Toggle chat theme', icon: 'moon', run: function () { toggleTheme(); return null; } },
+    { cmd: '/sound', desc: 'Toggle sound effects', icon: 'sound', run: function () { toggleSound(); return null; } },
+    { cmd: '/about', desc: 'About Laxironix', icon: 'info', run: function () { return replyIntent('about'); } },
+    { cmd: '/transparency', desc: 'Transparency info', icon: 'eye', run: function () { return replyIntent('transparency'); } },
+    { cmd: '/roadmap', desc: 'View roadmap', icon: 'map', run: function () { return replyIntent('roadmap'); } },
+    { cmd: '/community', desc: 'Community links', icon: 'users', run: function () { return replyIntent('community'); } }
+  ];
+
+  var ICONS = {
+    help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-.8.6-1.5 1-1.5 2M12 17h.01"/>',
+    grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    pie: '<path d="M21 12a9 9 0 1 1-9-9v9h9z"/>',
+    cart: '<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12h11l2-8H6"/>',
+    code: '<path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>',
+    shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    tag: '<path d="M20.6 13.4L12 22l-9-9V4h9l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor"/>',
+    calc: '<rect x="4" y="2" width="16" height="20" rx="2.5"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/>',
+    trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
+    download: '<path d="M12 3v12M6 11l6 6 6-6M4 21h16"/>',
+    moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+    sound: '<path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>',
+    eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
+    map: '<path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3V6z"/><path d="M8 3v15M16 6v15"/>',
+    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1.5A5.5 5.5 0 0 1 7.5 14h3A5.5 5.5 0 0 1 16 19.5V21M17 11a3 3 0 1 0 0-6M22 21v-1.5a5.5 5.5 0 0 0-3-4.9"/>',
+    chat: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+    bolt: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>'
+  };
+
+  /* ---------------------------------------------------------------
+     SERVICES (sidebar + welcome grid)
+     --------------------------------------------------------------- */
+  var SERVICES = [
+    { id: 'about', name: 'Token Info', desc: 'Supply, ticker, chain', icon: 'info' },
+    { id: 'supply', name: 'Tokenomics', desc: '50 / 50 allocation', icon: 'pie' },
+    { id: 'howtobuy', name: 'How to Buy', desc: '4-step guide', icon: 'cart' },
+    { id: 'safety', name: 'Wallet Safety', desc: 'Avoid scams', icon: 'shield' },
+    { id: 'code', name: 'Code Lab', desc: 'Solana dev snippets', icon: 'code' },
+    { id: 'calc', name: 'Calculator', desc: 'Math & tokenomics', icon: 'calc' },
+    { id: 'roadmap', name: 'Roadmap', desc: 'Phases 01–05', icon: 'map' },
+    { id: 'community', name: 'Community', desc: 'Follow & join', icon: 'users' }
+  ];
+
+  /* ---------------------------------------------------------------
+     INTENT DETECTION
+     --------------------------------------------------------------- */
+  function detectIntent(text) {
+    var t = normalize(text);
+    if (!t) return null;
+    var best = { score: 0, intent: null };
+    for (var i = 0; i < INTENTS.length; i++) {
+      var intent = INTENTS[i];
+      var score = 0;
+      // Keyword hits
+      for (var k = 0; k < intent.keywords.length; k++) {
+        var kw = normalize(intent.keywords[k]);
+        if (!kw) continue;
+        if (t.indexOf(kw) !== -1) {
+          // longer keyword matches weigh more
+          score += kw.length >= 6 ? 3 : kw.length >= 3 ? 2 : 1;
+        }
+      }
+      // Regex hits
+      if (intent.patterns) {
+        for (var p = 0; p < intent.patterns.length; p++) {
+          if (intent.patterns[p].test(t)) score += 4;
+        }
+      }
+      // Normalize by sqrt of keyword count to avoid huge intents dominating
+      score = score / Math.sqrt(Math.max(1, intent.keywords.length));
+      // Intent weight multiplier
+      score *= (intent.weight || 1);
+      if (score > best.score) best = { score: score, intent: intent };
+    }
+    // Minimum threshold
+    return best.score >= 0.9 ? best.intent : null;
+  }
+
+  function replyIntent(id) {
+    for (var i = 0; i < INTENTS.length; i++) {
+      if (INTENTS[i].id === id) return INTENTS[i].reply();
+    }
+    return 'I don\'t have that info handy.';
+  }
+
+  /* ---------------------------------------------------------------
+     TOOLS
+     --------------------------------------------------------------- */
+  function toolTokenomics(amount) {
+    var n = Number(amount);
+    if (!isFinite(n) || n <= 0) return null;
+    var reserve = n * (LAX.split.reserve / 100);
+    var community = n * (LAX.split.community / 100);
+    return '**Tokenomics breakdown for ' + formatNum(n) + ' $LAX**\n\n' +
+      '- **Founder / Project Reserve (50%)**: ' + formatNum(reserve) + ' $LAX\n' +
+      '- **Community & Liquidity (50%)**: ' + formatNum(community) + ' $LAX\n\n' +
+      'That\'s the 50 / 50 split applied to your amount.';
+  }
+
+  function toolPrice(tokens, price) {
+    var t = Number(tokens), p = Number(price);
+    if (!isFinite(t) || !isFinite(p)) return null;
+    var total = t * p;
+    return '**Value calculation**\n\n' +
+      '- Tokens: **' + formatNum(t) + ' $LAX**\n' +
+      '- Price: **$' + formatNum(p) + '** each\n' +
+      '- Total value: **$' + formatNum(total) + '**\n\n' +
+      '_This is a plain arithmetic result — not a price prediction or investment advice._';
+  }
+
+  function toolCalc(expr) {
+    try {
+      var r = evalMath(expr);
+      return '**' + escapeHtml(expr.trim()) + ' = ' + formatNum(r) + '**';
+    } catch (e) {
+      return 'Couldn\'t evaluate that: `' + escapeHtml(e.message) + '`\n\nTry something like `calc 2 + 2 * 10` or `calc sqrt(144)`.';
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     MESSAGE PIPELINE
+     --------------------------------------------------------------- */
+  function respondTo(rawInput) {
+    var text = String(rawInput || '').trim();
+    if (!text) return null;
+
+    // Commands
+    if (text.charAt(0) === '/') {
+      return handleCommand(text);
+    }
+
+    // Code shortcuts
+    var codeMatch = text.match(/^(?:code|snippet)\s+([a-zA-Z]+)/i);
+    if (codeMatch) {
+      var key = codeMatch[1].toLowerCase();
+      // aliases
+      if (key === 'python' || key === 'py') key = 'pyBalance';
+      if (key === 'js' || key === 'javascript') key = 'connect';
+      var snip = SNIPPETS[key];
+      if (snip) {
+        return {
+          text: '**' + snip.label + '**\n\n```' + snip.lang + '\n' + snip.code + '\n```',
+          chips: ['code connect', 'code balance', 'code jupiter', 'code python', 'code react']
+        };
+      }
+      return {
+        text: 'I don\'t have a snippet called `' + escapeHtml(codeMatch[1]) + '`. Available: ' +
+          Object.keys(SNIPPETS).map(function (k) { return '`' + k + '`'; }).join(', ') + '.',
+        chips: ['code connect', 'code balance', 'code jupiter']
+      };
+    }
+
+    // calc
+    var calcMatch = text.match(/^(?:calc|calculate|math)\s+(.+)$/i);
+    if (calcMatch) {
+      return { text: toolCalc(calcMatch[1]), chips: ['Calculator', 'tokenomics 1000000'] };
+    }
+
+    // tokenomics N
+    var tokMatch = text.match(/^tokenomics\s+([\d.,]+)/i);
+    if (tokMatch) {
+      var amount = parseFloat(tokMatch[1].replace(/,/g, ''));
+      var r = toolTokenomics(amount);
+      if (r) return { text: r, chips: ['Calculator', 'Supply', 'Founder allocation'] };
+    }
+
+    // price N P
+    var priceMatch = text.match(/^price\s+([\d.,]+)\s+([\d.,]+)/i);
+    if (priceMatch) {
+      var tokens = parseFloat(priceMatch[1].replace(/,/g, ''));
+      var price = parseFloat(priceMatch[2].replace(/,/g, ''));
+      var pr = toolPrice(tokens, price);
+      if (pr) return { text: pr, chips: ['Calculator', 'Tokenomics'] };
+    }
+
+    // Raw math (starts with number and contains operator)
+    if (/^[\d.\s()+\-*/^%]+$/.test(text) && /[+\-*/^%]/.test(text)) {
+      return { text: toolCalc(text), chips: ['Calculator', 'tokenomics 1000000'] };
+    }
+
+    // Intent detection
+    var intent = detectIntent(text);
+    if (intent) {
+      return {
+        text: intent.reply(),
+        chips: intent.chips || ['Help', 'Tokenomics', 'How to buy', 'Code lab']
+      };
+    }
+
+    // Fallback
+    return {
+      text: 'I\'m not sure I caught that. 🤔\n\nI\'m strongest on:\n' +
+        '- **$LAX token info** — supply, allocation, chain\n' +
+        '- **How to buy** on Solana\n' +
+        '- **Wallet safety**\n' +
+        '- **Code snippets** for Solana\n' +
+        '- **Calculators** (math, tokenomics, price)\n\n' +
+        'Try rephrasing, or type `/` to see all commands.',
+      chips: ['Help', 'Tokenomics', 'How to buy', 'Code lab', 'Calculator', 'Safety']
+    };
+  }
+
+  function handleCommand(text) {
+    var parts = text.slice(1).trim().split(/\s+/);
+    var cmd = '/' + (parts[0] || '').toLowerCase();
+    var args = parts.slice(1);
+
+    for (var i = 0; i < COMMANDS.length; i++) {
+      if (COMMANDS[i].cmd === cmd) {
+        var out = COMMANDS[i].run(args);
+        if (out === null) return null; // handled internally (clear/export/theme/sound)
+        return { text: out, chips: ['Help', 'Tokenomics', 'How to buy', 'Code lab'] };
+      }
+    }
+    return {
+      text: 'Unknown command `' + escapeHtml(cmd) + '`. Type `/` to open the palette, or `/help` for the list.',
+      chips: ['/help', '/code', '/buy', '/clear']
+    };
+  }
+
+  /* ---------------------------------------------------------------
+     RENDERER
+     --------------------------------------------------------------- */
+  function addMessage(role, content, opts) {
+    opts = opts || {};
+    var msg = {
+      id: uid(),
+      role: role,
+      content: content,
+      ts: Date.now(),
+      chips: opts.chips || null,
+      typing: !!opts.typing
+    };
+    state.messages.push(msg);
+    if (state.messages.length > CFG.maxHistory) state.messages.shift();
+    renderMessage(msg);
+    scrollToBottom();
+    if (!state.open && role === 'bot') {
+      state.unread++;
+      updateBadge();
+    }
+    saveHistory();
+    return msg;
+  }
+
+  function renderMessage(msg) {
+    var wrap = document.createElement('div');
+    wrap.className = 'lb-msg lb-' + msg.role;
+    wrap.dataset.id = msg.id;
+
+    var ava = document.createElement('div');
+    ava.className = 'lb-msg-ava';
+    if (msg.role === 'bot') {
+      var img = document.createElement('img');
+      img.src = $('lb-ava-img') ? $('lb-ava-img').src : CFG.fallbackLogo;
+      img.alt = 'LAX';
+      img.onerror = function () { this.src = CFG.fallbackLogo; };
+      ava.appendChild(img);
+    } else {
+      ava.textContent = 'YOU';
+    }
+
+    var wrap2 = document.createElement('div');
+    wrap2.className = 'lb-msg-wrap';
+
+    var bubble = document.createElement('div');
+    bubble.className = 'lb-bubble';
+
+    if (msg.typing) {
+      bubble.innerHTML = '<div class="lb-typing"><span></span><span></span><span></span></div>';
+    } else {
+      bubble.innerHTML = renderMarkdown(msg.content);
+    }
+    wrap2.appendChild(bubble);
+
+    // Meta row
+    if (!msg.typing) {
+      var meta = document.createElement('div');
+      meta.className = 'lb-meta';
+      var t = document.createElement('span');
+      t.textContent = timeLabel(msg.ts);
+      meta.appendChild(t);
+      var copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+      copyBtn.addEventListener('click', function () {
+        copyText(msg.content).then(function () {
+          copyBtn.innerHTML = 'Copied';
+          setTimeout(function () {
+            copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+          }, 1200);
+        });
+      });
+      meta.appendChild(copyBtn);
+      wrap2.appendChild(meta);
+    }
+
+    wrap.appendChild(ava);
+    wrap.appendChild(wrap2);
+    elBody.appendChild(wrap);
+
+    // Wire up code-copy buttons inside this bubble
+    bubble.querySelectorAll('.lb-code-copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var codeEl = btn.closest('.lb-code').querySelector('pre code');
+        if (!codeEl) return;
+        copyText(codeEl.textContent).then(function () {
+          btn.textContent = 'Copied';
+          btn.classList.add('lb-copied');
+          setTimeout(function () {
+            btn.textContent = 'Copy';
+            btn.classList.remove('lb-copied');
+          }, 1300);
+        });
+      });
+    });
+  }
+
+  function replaceTyping(msgId, content, chips) {
+    var node = elBody.querySelector('[data-id="' + msgId + '"]');
+    if (!node) return;
+    var msg = state.messages.find(function (m) { return m.id === msgId; });
+    if (msg) {
+      msg.typing = false;
+      msg.content = content;
+      msg.chips = chips || null;
+      msg.ts = Date.now();
+    }
+    var bubble = node.querySelector('.lb-bubble');
+    if (bubble) {
+      bubble.innerHTML = renderMarkdown(content);
+      // wire code copy
+      bubble.querySelectorAll('.lb-code-copy').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var codeEl = btn.closest('.lb-code').querySelector('pre code');
+          if (!codeEl) return;
+          copyText(codeEl.textContent).then(function () {
+            btn.textContent = 'Copied';
+            btn.classList.add('lb-copied');
+            setTimeout(function () {
+              btn.textContent = 'Copy';
+              btn.classList.remove('lb-copied');
+            }, 1300);
+          });
+        });
+      });
+    }
+    // meta row
+    var wrap2 = node.querySelector('.lb-msg-wrap');
+    var oldMeta = wrap2.querySelector('.lb-meta');
+    if (oldMeta) oldMeta.remove();
+    var meta = document.createElement('div');
+    meta.className = 'lb-meta';
+    var t = document.createElement('span');
+    t.textContent = timeLabel(Date.now());
+    meta.appendChild(t);
+    var copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+    copyBtn.addEventListener('click', function () {
+      copyText(content).then(function () {
+        copyBtn.innerHTML = 'Copied';
+        setTimeout(function () {
+          copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+        }, 1200);
+      });
+    });
+    meta.appendChild(copyBtn);
+    wrap2.appendChild(meta);
+
+    if (chips && chips.length) renderChips(chips);
+    scrollToBottom();
+    saveHistory();
+  }
+
+  function renderChips(chips) {
+    elChips.innerHTML = '';
+    if (!chips || !chips.length) return;
+    chips.slice(0, 6).forEach(function (c) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lb-chip';
+      // If it's a command, add a small icon
+      var iconSvg = '';
+      if (c.charAt(0) === '/') {
+        iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg>';
+      }
+      btn.innerHTML = iconSvg + '<span>' + escapeHtml(c) + '</span>';
+      btn.addEventListener('click', function () {
+        sendUserMessage(c);
+      });
+      elChips.appendChild(btn);
+    });
+  }
+
+  function scrollToBottom() {
+    requestAnimationFrame(function () {
+      elBody.scrollTop = elBody.scrollHeight;
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     SEND FLOW
+     --------------------------------------------------------------- */
+  function sendUserMessage(text) {
+    text = String(text || '').trim();
+    if (!text || state.waiting) return;
+    addMessage('user', text);
+    elInput.value = '';
+    autoResize();
+    elSend.disabled = true;
+    playBeep(660, 0.05);
+
+    // Typing indicator
+    var typingMsg = addMessage('bot', '', { typing: true });
+    state.waiting = true;
+    setStatus('Thinking…');
+
+    var response = respondTo(text);
+    var delay = response ? Math.min(1500, 320 + response.text.length * 1.8) : 500;
+
+    setTimeout(function () {
+      state.waiting = false;
+      setStatus('Online · Ready to help');
+      if (!response) {
+        // clear/export/theme/sound commands
+        var node = elBody.querySelector('[data-id="' + typingMsg.id + '"]');
+        if (node) node.remove();
+        state.messages = state.messages.filter(function (m) { return m.id !== typingMsg.id; });
+        return;
+      }
+      replaceTyping(typingMsg.id, response.text, response.chips);
+      playBeep(880, 0.06);
+    }, delay);
+  }
+
+  /* ---------------------------------------------------------------
+     STATUS / BADGE
+     --------------------------------------------------------------- */
+  function setStatus(text) {
+    if (elStatusText) elStatusText.textContent = text;
+  }
+  function updateBadge() {
+    if (!elBadge) return;
+    if (state.unread > 0) {
+      elBadge.textContent = state.unread > 9 ? '9+' : String(state.unread);
+      elBadge.classList.remove('lb-hide');
+    } else {
+      elBadge.classList.add('lb-hide');
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     SOUND
+     --------------------------------------------------------------- */
+  var audioCtx = null;
+  function playBeep(freq, dur) {
+    if (!state.sound) return;
+    try {
+      if (!audioCtx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        audioCtx = new AC();
+      }
+      var o = audioCtx.createOscillator();
+      var g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+      o.connect(g).connect(audioCtx.destination);
+      o.start();
+      o.stop(audioCtx.currentTime + dur + 0.02);
+    } catch (e) { /* noop */ }
+  }
+
+  function toggleSound() {
+    state.sound = !state.sound;
+    var btn = $('lb-btn-sound');
+    btn.classList.toggle('lb-active', state.sound);
+    savePrefs();
+    showToast(state.sound ? 'Sound on' : 'Sound off');
+    if (state.sound) playBeep(880, 0.08);
+  }
+
+  /* ---------------------------------------------------------------
+     THEME
+     --------------------------------------------------------------- */
+  function toggleTheme() {
+    var root = document.getElementById('laxbot-root');
+    var isLight = root.classList.toggle('lb-light');
+    if (isLight) {
+      root.style.setProperty('--lb-bg', '#f5f5fa');
+      root.style.setProperty('--lb-bg2', '#ffffff');
+      root.style.setProperty('--lb-bg3', '#eef0f6');
+      root.style.setProperty('--lb-panel', 'rgba(0,0,0,.04)');
+      root.style.setProperty('--lb-panel2', 'rgba(0,0,0,.07)');
+      root.style.setProperty('--lb-border', 'rgba(0,0,0,.1)');
+      root.style.setProperty('--lb-border2', 'rgba(0,0,0,.2)');
+      root.style.setProperty('--lb-text', '#0a0a12');
+      root.style.setProperty('--lb-muted', '#4a4a5e');
+      root.style.setProperty('--lb-muted2', '#7a7a8e');
+    } else {
+      root.style.setProperty('--lb-bg', '#0a0a12');
+      root.style.setProperty('--lb-bg2', '#10101c');
+      root.style.setProperty('--lb-bg3', '#16162a');
+      root.style.setProperty('--lb-panel', 'rgba(255,255,255,.04)');
+      root.style.setProperty('--lb-panel2', 'rgba(255,255,255,.07)');
+      root.style.setProperty('--lb-border', 'rgba(255,255,255,.09)');
+      root.style.setProperty('--lb-border2', 'rgba(255,255,255,.18)');
+      root.style.setProperty('--lb-text', '#f2f2f7');
+      root.style.setProperty('--lb-muted', '#9a9aae');
+      root.style.setProperty('--lb-muted2', '#6e6e83');
+    }
+    savePrefs();
+    showToast(isLight ? 'Light theme' : 'Dark theme');
+  }
+
+  /* ---------------------------------------------------------------
+     EXPORT / CLEAR
+     --------------------------------------------------------------- */
+  function exportChat() {
+    var txt = state.messages.map(function (m) {
+      var who = m.role === 'user' ? 'You' : 'LAX Assistant';
+      return '[' + new Date(m.ts).toLocaleString() + '] ' + who + ':\n' + m.content + '\n';
+    }).join('\n---\n\n');
+    try {
+      var blob = new Blob([txt], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'lax-assistant-chat-' + Date.now() + '.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      showToast('Chat exported');
+    } catch (e) {
+      showToast('Export failed');
+    }
+  }
+
+  function clearChat() {
+    state.messages = [];
+    elBody.innerHTML = '';
+    elChips.innerHTML = '';
+    localStorage.removeItem(CFG.storageKey);
+    renderWelcome();
+    showToast('Conversation cleared');
+  }
+
+  /* ---------------------------------------------------------------
+     PERSISTENCE
+     --------------------------------------------------------------- */
+  function saveHistory() {
+    try {
+      var toSave = state.messages.filter(function (m) { return !m.typing; }).slice(-CFG.maxHistory);
+      localStorage.setItem(CFG.storageKey, JSON.stringify(toSave));
+    } catch (e) { /* ignore */ }
+  }
+  function loadHistory() {
+    try {
+      var raw = localStorage.getItem(CFG.storageKey);
+      if (!raw) return null;
+      var arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) return null;
+      return arr.filter(function (m) { return m && m.role && typeof m.content === 'string'; });
+    } catch (e) { return null; }
+  }
+  function savePrefs() {
+    try {
+      localStorage.setItem(CFG.prefsKey, JSON.stringify({ sound: state.sound }));
+    } catch (e) { /* ignore */ }
+  }
+  function loadPrefs() {
+    try {
+      var raw = localStorage.getItem(CFG.prefsKey);
+      if (!raw) return;
+      var p = JSON.parse(raw);
+      if (p && typeof p.sound === 'boolean') state.sound = p.sound;
+    } catch (e) { /* ignore */ }
+  }
+
+  /* ---------------------------------------------------------------
+     WELCOME / SERVICES RENDER
+     --------------------------------------------------------------- */
+  function renderWelcome() {
+    var heroHtml =
+      '<div class="lb-welcome-hero">' +
+        '<div class="lb-wh-ico">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + ICONS.bolt + '</svg>' +
+        '</div>' +
+        '<h4>Hey, I\'m the LAX Assistant</h4>' +
+        '<p>Your guide to Laxironix ($LAX) and Solana — with tools, code, and answers.</p>' +
+      '</div>' +
+      '<div class="lb-svc-inline">' +
+        SERVICES.slice(0, 4).map(function (s) {
+          return '<button type="button" data-svc="' + s.id + '">' +
+            '<span class="lb-si-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICONS[s.icon] + '</svg></span>' +
+            '<span class="lb-si-txt">' + escapeHtml(s.name) + '</span>' +
+          '</button>';
+        }).join('') +
+      '</div>';
+
+    addMessage('bot', heroHtml, {
+      chips: ['What is Laxironix?', 'Tokenomics', 'How to buy', 'Code lab', 'Calculator']
+    });
+
+    // Wire service buttons
+    setTimeout(function () {
+      elBody.querySelectorAll('[data-svc]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          sendUserMessage(replyIntentLabel(btn.dataset.svc));
+        });
+      });
+    }, 60);
+  }
+
+  function replyIntentLabel(id) {
+    var map = {
+      about: 'What is Laxironix?',
+      supply: 'Tokenomics',
+      howtobuy: 'How to buy $LAX',
+      safety: 'Wallet safety',
+      code: 'Code lab',
+      calc: 'Calculator',
+      roadmap: 'Roadmap',
+      community: 'Community links'
+    };
+    return map[id] || 'Help';
+  }
+
+  function renderServicesSidebar() {
+    var grid = $('lb-svc-grid');
+    grid.innerHTML = SERVICES.map(function (s) {
+      return '<button type="button" class="lb-svc" data-svc="' + s.id + '">' +
+        '<span class="lb-svc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICONS[s.icon] + '</svg></span>' +
+        '<span class="lb-svc-name">' + escapeHtml(s.name) + '</span>' +
+        '<span class="lb-svc-desc">' + escapeHtml(s.desc) + '</span>' +
+      '</button>';
+    }).join('');
+    grid.querySelectorAll('[data-svc]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        toggleSidebar(false);
+        sendUserMessage(replyIntentLabel(btn.dataset.svc));
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     COMMAND PALETTE
+     --------------------------------------------------------------- */
+  function renderPalette(filter) {
+    var f = (filter || '').toLowerCase().replace(/^\//, '');
+    var items = COMMANDS.filter(function (c) {
+      if (!f) return true;
+      return c.cmd.toLowerCase().indexOf(f) !== -1 || c.desc.toLowerCase().indexOf(f) !== -1;
+    });
+    elPaletteList.innerHTML = '';
+    if (!items.length) {
+      elPaletteList.innerHTML = '<div class="lb-palette-empty">No matching commands</div>';
+      return;
+    }
+    items.forEach(function (c, i) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lb-palette-item' + (i === state.paletteSel ? ' lb-sel' : '');
+      btn.innerHTML =
+        '<span class="lb-pi-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (ICONS[c.icon] || ICONS.bolt) + '</svg></span>' +
+        '<span><span class="lb-pi-cmd">' + escapeHtml(c.cmd) + '</span><span class="lb-pi-desc">' + escapeHtml(c.desc) + '</span></span>';
+      btn.addEventListener('click', function () {
+        togglePalette(false);
+        sendUserMessage(c.cmd);
+      });
+      elPaletteList.appendChild(btn);
+    });
+    state.paletteSel = 0;
+  }
+
+  function togglePalette(open) {
+    state.palette = open !== undefined ? open : !state.palette;
+    elPalette.classList.toggle('lb-open', state.palette);
+    if (state.palette) {
+      elPaletteInput.value = '';
+      renderPalette('');
+      setTimeout(function () { elPaletteInput.focus(); }, 60);
+    }
+  }
+
+  function toggleSidebar(open) {
+    state.sidebar = open !== undefined ? open : !state.sidebar;
+    elSidebar.classList.toggle('lb-open', state.sidebar);
+    $('lb-btn-sidebar').classList.toggle('lb-active', state.sidebar);
+  }
+
+  /* ---------------------------------------------------------------
+     OPEN / CLOSE
+     --------------------------------------------------------------- */
+  function setOpen(open) {
+    state.open = open;
+    elPanel.classList.toggle('lb-open', open);
+    elFab.classList.toggle('lb-open', open);
+    if (open) {
+      state.unread = 0;
+      updateBadge();
+      setTimeout(function () { elInput.focus(); }, 260);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     INPUT HANDLING
+     --------------------------------------------------------------- */
+  function autoResize() {
+    elInput.style.height = 'auto';
+    elInput.style.height = Math.min(elInput.scrollHeight, 120) + 'px';
+    elSend.disabled = elInput.value.trim().length === 0 || state.waiting;
+  }
+
+  /* ---------------------------------------------------------------
+     VOICE INPUT
+     --------------------------------------------------------------- */
+  function initVoice() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      elMic.style.display = 'none';
+      return;
+    }
+    state.recognition = new SR();
+    state.recognition.lang = 'en-US';
+    state.recognition.interimResults = false;
+    state.recognition.maxAlternatives = 1;
+
+    state.recognition.onstart = function () {
+      state.listening = true;
+      elMic.classList.add('lb-listening');
+      setStatus('Listening…');
+    };
+    state.recognition.onend = function () {
+      state.listening = false;
+      elMic.classList.remove('lb-listening');
+      setStatus('Online · Ready to help');
+    };
+    state.recognition.onerror = function (e) {
+      state.listening = false;
+      elMic.classList.remove('lb-listening');
+      setStatus('Online · Ready to help');
+      if (e.error !== 'aborted') showToast('Voice error: ' + e.error);
+    };
+    state.recognition.onresult = function (ev) {
+      var text = ev.results[0][0].transcript;
+      elInput.value = text;
+      autoResize();
+      setTimeout(function () { sendUserMessage(text); }, 180);
+    };
+  }
+
+  /* ---------------------------------------------------------------
+     INIT
+     --------------------------------------------------------------- */
+  function init() {
+    elPanel = $('lb-panel');
+    elFab = $('lb-fab');
+    elBody = $('lb-body');
+    elInput = $('lb-input');
+    elSend = $('lb-btn-send');
+    elMic = $('lb-btn-mic');
+    elChips = $('lb-chips');
+    elSidebar = $('lb-sidebar');
+    elPalette = $('lb-palette');
+    elPaletteInput = $('lb-palette-input');
+    elPaletteList = $('lb-palette-list');
+    elToast = $('lb-toast');
+    elToastMsg = $('lb-toast-msg');
+    elBadge = $('lb-badge');
+    elStatusText = $('lb-status-text');
+    elHintRight = $('lb-hint-right');
+
+    if (!elPanel) return;
+
+    // Fallback logo
+    var avaImg = $('lb-ava-img');
+    if (avaImg) avaImg.onerror = function () { this.onerror = null; this.src = CFG.fallbackLogo; };
+
+    // Load prefs
+    loadPrefs();
+    if (state.sound) $('lb-btn-sound').classList.add('lb-active');
+
+    // Version
+    elHintRight.textContent = 'v2.0';
+
+    // Render services sidebar
+    renderServicesSidebar();
+
+    // Load or welcome
+    var history = loadHistory();
+    if (history && history.length) {
+      history.forEach(function (m) {
+        state.messages.push(m);
+        renderMessage(m);
+      });
+      scrollToBottom();
+      // Render last known chips from last bot message
+      var lastBot = null;
+      for (var i = state.messages.length - 1; i >= 0; i--) {
+        if (state.messages[i].role === 'bot' && state.messages[i].chips) {
+          lastBot = state.messages[i]; break;
+        }
+      }
+      if (lastBot) renderChips(lastBot.chips);
+    } else {
+      renderWelcome();
+    }
+
+    // FAB
+    elFab.addEventListener('click', function () {
+      setOpen(!state.open);
+    });
+
+    // Close button
+    $('lb-btn-close').addEventListener('click', function () { setOpen(false); });
+
+    // Sidebar
+    $('lb-btn-sidebar').addEventListener('click', function () { toggleSidebar(); });
+    $('lb-sidebar-close').addEventListener('click', function () { toggleSidebar(false); });
+
+    // Palette
+    $('lb-btn-palette').addEventListener('click', function () { togglePalette(); });
+    elPalette.addEventListener('click', function (e) {
+      if (e.target === elPalette) togglePalette(false);
+    });
+    elPaletteInput.addEventListener('input', function () {
+      renderPalette(elPaletteInput.value);
+    });
+    elPaletteInput.addEventListener('keydown', function (e) {
+      var items = elPaletteList.querySelectorAll('.lb-palette-item');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        state.paletteSel = Math.min(state.paletteSel + 1, items.length - 1);
+        items.forEach(function (it, i) { it.classList.toggle('lb-sel', i === state.paletteSel); });
+        if (items[state.paletteSel]) items[state.paletteSel].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        state.paletteSel = Math.max(state.paletteSel - 1, 0);
+        items.forEach(function (it, i) { it.classList.toggle('lb-sel', i === state.paletteSel); });
+        if (items[state.paletteSel]) items[state.paletteSel].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (items[state.paletteSel]) items[state.paletteSel].click();
+      } else if (e.key === 'Escape') {
+        togglePalette(false);
+      }
+    });
+
+    // Sound
+    $('lb-btn-sound').addEventListener('click', toggleSound);
+
+    // Send
+    elSend.addEventListener('click', function () { sendUserMessage(elInput.value); });
+
+    // Input
+    elInput.addEventListener('input', autoResize);
+    elInput.addEventListener('focus', function () { $('lb-input-row').classList.add('lb-focus'); });
+    elInput.addEventListener('blur', function () { $('lb-input-row').classList.remove('lb-focus'); });
+    elInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendUserMessage(elInput.value);
+      }
+      // "/" opens palette when empty
+      if (e.key === '/' && elInput.value === '') {
+        e.preventDefault();
+        togglePalette(true);
+      }
+      if (e.key === 'Escape') {
+        if (state.palette) togglePalette(false);
+        else if (state.sidebar) toggleSidebar(false);
+        else setOpen(false);
+      }
+    });
+
+    // Mic
+    initVoice();
+    if (state.recognition) {
+      elMic.addEventListener('click', function () {
+        if (state.listening) state.recognition.stop();
+        else { try { state.recognition.start(); } catch (e) {} }
+      });
+    }
+
+    // Global Esc
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        if (state.palette) togglePalette(false);
+        else if (state.sidebar) toggleSidebar(false);
+      }
+    });
+
+    autoResize();
+
+    // Auto-open on first visit after a short delay
+    try {
+      if (!localStorage.getItem(CFG.storageKey)) {
+        setTimeout(function () {
+          if (!state.open) {
+            // gently pulse the FAB instead of forcing open
+            elFab.style.animation = 'lb-pulse 1.6s ease-in-out 2';
+            setTimeout(function () { elFab.style.animation = ''; }, 3400);
+          }
+        }, 2400);
+      }
+    } catch (e) {}
+  }
+
+  /* ---------------------------------------------------------------
+     BOOT
+     --------------------------------------------------------------- */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
 })();
 </script>
-</body>
-</html>
