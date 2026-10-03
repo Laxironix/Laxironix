@@ -1,458 +1,480 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$LAX — Cyber-Memecoin Protocol on Solana</title>
-<meta name="description" content="Laxironix ($LAX) — Built on Solana. Powered by pure chaos, ASCII vibes, and good memes.">
-<link rel="icon" href="logi.jpg">
+<title>Laxironix ($LAX) — Terminal Protocol</title>
+<meta name="description" content="Laxironix ($LAX) - Cyber Memecoin Protocol sur Solana">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+  :root {
+    --bg-color: #030307;
+    --primary: #14F195;
+    --secondary: #9945FF;
+    --accent: #FFD700;
+    --danger: #FF3366;
+    --card-bg: rgba(10, 10, 20, 0.75);
+    --border-color: rgba(20, 241, 149, 0.3);
+  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+
   body {
     font-family: 'Fira Code', monospace;
-    background: #080711;
-    color: #00ff66;
+    background-color: var(--bg-color);
+    color: var(--primary);
+    line-height: 1.6;
     overflow-x: hidden;
-    line-height: 1.5;
+    position: relative;
   }
 
-  /* Scanlines CRT Cyber */
-  body::before {
-    content: "";
+  /* Canvas de fond interactif */
+  #cyber-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Scanlines CRT */
+  .crt-overlay {
     position: fixed;
     inset: 0;
-    background: 
-      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%),
-      radial-gradient(circle at 20% 20%, rgba(153,69,255,0.2), transparent 40%),
-      radial-gradient(circle at 80% 60%, rgba(20,241,149,0.15), transparent 45%);
-    background-size: 100% 4px, 100% 100%, 100% 100%;
-    z-index: 999;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
+    z-index: 1000;
     pointer-events: none;
   }
 
   .container {
-    max-width: 950px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
   }
 
+  /* Navigation Cyber */
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
+    padding: 20px 0;
     position: sticky;
     top: 0;
-    background: rgba(8, 7, 17, 0.9);
-    backdrop-filter: blur(12px);
+    background: rgba(3, 3, 7, 0.88);
+    backdrop-filter: blur(16px);
     z-index: 100;
-    border-bottom: 2px solid #14F195;
-    box-shadow: 0 0 15px rgba(20, 241, 149, 0.2);
+    border-bottom: 1px solid var(--border-color);
   }
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  .logo-brand {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  .logo img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid #14F195;
-    animation: spin 8s linear infinite;
-  }
-
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  .nav-links {
+    display: flex;
+    gap: 20px;
   }
 
   .nav-links a {
-    color: #888;
+    color: #8a8a9e;
     text-decoration: none;
-    margin-left: 22px;
-    font-weight: bold;
-    transition: 0.2s;
-  }
-  .nav-links a:hover { 
-    color: #14F195; 
-    text-shadow: 0 0 8px #14F195; 
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    padding: 6px 12px;
+    border-radius: 4px;
   }
 
+  .nav-links a:hover {
+    color: var(--primary);
+    background: rgba(20, 241, 149, 0.1);
+    box-shadow: 0 0 10px rgba(20, 241, 149, 0.3);
+  }
+
+  /* Section Hero */
   .hero {
+    padding: 80px 0 60px;
     text-align: center;
-    padding: 60px 0 40px;
   }
 
-  .ascii-banner {
-    font-size: 0.75rem;
-    color: #9945FF;
-    text-shadow: 0 0 8px rgba(153,69,255,0.6);
-    margin-bottom: 20px;
+  .ascii-title {
+    font-size: clamp(0.55rem, 1.4vw, 0.9rem);
+    color: var(--secondary);
+    text-shadow: 0 0 12px rgba(153, 69, 255, 0.8);
     white-space: pre;
-    overflow-x: auto;
+    display: inline-block;
+    margin-bottom: 25px;
   }
 
-  .hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 7vw, 4.5rem);
-    line-height: 1.1;
-    margin-bottom: 16px;
-    background: linear-gradient(90deg, #9945FF, #14F195, #FFD700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero .subtitle {
-    font-size: 1.2rem;
-    color: #a0a0b0;
-    max-width: 650px;
+  .subtitle {
+    font-size: 1.25rem;
+    color: #b0b0cb;
+    max-width: 700px;
     margin: 0 auto 30px;
   }
 
   .badge {
     display: inline-block;
-    background: #14F195;
-    color: #000;
-    font-weight: bold;
     padding: 6px 16px;
-    border-radius: 4px;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    background: rgba(20, 241, 149, 0.05);
     font-size: 0.85rem;
     margin-bottom: 20px;
-    box-shadow: 0 0 10px #14F195;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 14px 32px;
+  /* Boutons interactifs avec effets audio */
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .cyber-btn {
+    padding: 14px 28px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
     font-weight: bold;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: 0.25s;
-    border: 2px solid transparent;
-    cursor: pointer;
-    font-family: inherit;
-  }
-
-  .btn-main {
-    background: #14F195;
     color: #000;
-    box-shadow: 0 0 15px rgba(20, 241, 149, 0.4);
-  }
-  .btn-main:hover {
-    background: #000;
-    color: #14F195;
-    border-color: #14F195;
-    box-shadow: 0 0 25px rgba(20, 241, 149, 0.8);
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
   }
 
-  .btn-outline {
+  .cyber-btn:hover {
     background: transparent;
-    border-color: #9945FF;
-    color: #9945FF;
-    margin-left: 12px;
+    color: var(--primary);
+    box-shadow: 0 0 20px rgba(20, 241, 149, 0.6);
   }
-  .btn-outline:hover {
-    background: #9945FF;
+
+  .cyber-btn-secondary {
+    background: transparent;
+    color: var(--secondary);
+    border-color: var(--secondary);
+  }
+
+  .cyber-btn-secondary:hover {
+    background: var(--secondary);
     color: #fff;
-    box-shadow: 0 0 15px rgba(153, 69, 255, 0.6);
+    box-shadow: 0 0 20px rgba(153, 69, 255, 0.6);
   }
 
-  section {
-    padding: 50px 0;
-  }
-
-  h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.2rem;
-    text-align: center;
-    margin-bottom: 12px;
-    color: #fff;
-  }
-
-  .section-desc {
-    text-align: center;
-    color: #777;
-    margin-bottom: 30px;
-  }
-
-  .terminal-window {
-    background: #05050a;
-    border: 1px solid #14F195;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
-    margin-bottom: 30px;
+  /* Cartes et Fenêtres Terminal */
+  .terminal-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    margin: 40px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
   }
 
   .terminal-header {
     display: flex;
-    gap: 8px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #222;
-    padding-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
   }
 
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-red { background: #ff5f56; }
-  .dot-yellow { background: #ffbd2e; }
-  .dot-green { background: #27c93f; }
+  .dots {
+    display: flex;
+    gap: 8px;
+  }
 
-  .card-grid {
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-1 { background: #ff5f56; }
+  .dot-2 { background: #ffbd2e; }
+  .dot-3 { background: #27c93f; }
+
+  .grid-2 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
   }
 
-  .card {
+  .card-item {
     background: rgba(255,255,255,0.02);
-    border: 1px solid #333;
+    border: 1px solid rgba(255,255,255,0.08);
     padding: 20px;
-    transition: 0.3s;
-  }
-  .card:hover {
-    border-color: #14F195;
-    background: rgba(20,241,149,0.05);
-    transform: translateY(-4px);
+    transition: all 0.3s ease;
   }
 
-  .card h3 {
+  .card-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    background: rgba(20, 241, 149, 0.03);
+  }
+
+  .card-item h3 {
+    color: #fff;
     font-size: 1.1rem;
     margin-bottom: 10px;
-    color: #14F195;
   }
 
-  .card p { color: #aaa; font-size: 0.9rem; }
-
-  .buy-box {
-    background: rgba(153,69,255,0.05);
-    border: 2px dashed #9945FF;
-    border-radius: 8px;
-    padding: 40px 20px;
-    text-align: center;
-    margin: 30px 0;
-  }
-
-  .ca-box {
+  .ca-display {
     background: #000;
-    border: 1px solid #14F195;
-    padding: 12px;
+    border: 1px dashed var(--primary);
+    padding: 14px;
+    margin: 15px 0;
     font-size: 0.85rem;
-    color: #14F195;
     word-break: break-all;
-    margin: 15px auto;
-    max-width: 550px;
     cursor: pointer;
+    transition: all 0.2s ease;
   }
-  .ca-box:hover {
-    background: #14F195;
+
+  .ca-display:hover {
+    background: var(--primary);
     color: #000;
   }
 
-  .roadmap {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .phase {
-    display: flex;
-    gap: 15px;
-    background: rgba(255,255,255,0.02);
-    padding: 18px;
-    border-left: 3px solid #9945FF;
-  }
-
-  .phase-number {
-    color: #9945FF;
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-
   footer {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 40px 0;
     text-align: center;
-    padding: 40px 0 20px;
-    border-top: 1px solid #222;
-    color: #555;
     font-size: 0.85rem;
+    color: #666;
   }
 
-  footer a { color: #14F195; }
-
-  .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 15px;
-    background: #14F195;
-    animation: blink 0.8s infinite;
-    vertical-align: middle;
-  }
-
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-  @media (max-width: 600px) {
-    .nav-links { display: none; }
-    .btn-outline { margin-left: 0; margin-top: 10px; display: block; }
+  /* Audio Toggle Button */
+  .audio-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(10, 10, 20, 0.9);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 10px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1001;
+    font-family: inherit;
+    font-size: 0.8rem;
   }
 </style>
 </head>
 <body>
 
-<nav class="container">
-  <div class="logo">
-    <img src="logi.jpg" alt="Laxironix logo">
-    <span>$LAX//OS</span>
-  </div>
-  <div class="nav-links">
-    <a href="#about">/about</a>
-    <a href="#buy">/buy</a>
-    <a href="#roadmap">/roadmap</a>
-    <a href="#community">/community</a>
-  </div>
-</nav>
+<div class="crt-overlay"></div>
+<canvas id="cyber-canvas"></canvas>
 
-<section class="hero container">
-  <pre class="ascii-banner">
-  ___  _       ___  _  _ 
- / __|| |     / A \| |/ / 
- \__ \| |__  / _  \  <  
- |___/|____|/_/ \_\_|\_\ 
- [SYS_OVERRIDE :: SOLANA_NETWORK]
-  </pre>
+<button class="audio-toggle" id="audioBtn">🔊 AUDIO: AMBIANCE DOUCE</button>
 
-  <div class="badge">> STATUS: DEGEN_PROTOCOL_ONLINE</div>
-  <h1>Laxironix $LAX</h1>
-  <p class="subtitle">
-    Le seul memecoin qui ne promet absolument rien... mais qui infecte les charts à toute vitesse.
-  </p>
-  <div>
-    <a href="#buy" class="btn btn-main">> EXECUTE_BUY_ORDER</a>
-    <a href="https://x.com/Laxironix" target="_blank" class="btn btn-outline">> JOIN_THE_CHAOS</a>
-  </div>
-</section>
+<div class="container">
+  <nav>
+    <div class="logo-brand">
+      <span>Laxironix ($LAX)</span>
+    </div>
+    <div class="nav-links">
+      <a href="#about" class="nav-link">/A propos</a>
+      <a href="#buy" class="nav-link">/Acheter</a>
+      <a href="#roadmap" class="nav-link">/Roadmap</a>
+    </div>
+  </nav>
 
-<section id="about" class="container">
-  <h2>SYSTEM_DIAGNOSTICS</h2>
-  <p class="section-desc">Pénétration du marché crypto avec 0% d'utilité et 100% de vibes.</p>
+  <section class="hero">
+    <pre class="ascii-title">
+  _        _  _  _  ____  ____   ___  _  _  ____  _  _  ____  _  _ 
+ ( \      / )( \( \/ )(  _ \(  _ \ / __)( \/ )(  _ \( \/ )(  _ \( \/ )
+ / (_/\  / \/ / )  (  )   / )   /( (__  )  (  )   / )  (  )   / )  ( 
+ \____/  \_/\_/(_/\_)(_\_)(_\__) \___)(_/\_)(_\_)(_/\_)(_\_)(_/\_)
+ [SYSTEM_OVERRIDE :: LAXIRONIX_CORE_NET]
+    </pre>
 
-  <div class="terminal-window">
+    <div class="badge">> LAXIRONIX PROTOCOL IS ONLINE</div>
+    <p class="subtitle">Le memecoin ultime sur Solana. Aucune promesse, juste une ambiance sonore douce et du pur chaos visuel.</p>
+
+    <div class="btn-group">
+      <a href="#buy" class="cyber-btn cyber-action">> ACHETER $LAX</a>
+      <a href="https://x.com/Laxironix" target="_blank" class="cyber-btn cyber-btn-secondary cyber-action">> TWITTER / X</a>
+    </div>
+  </section>
+
+  <section id="about" class="terminal-box">
     <div class="terminal-header">
-      <div class="dot dot-red"></div>
-      <div class="dot dot-yellow"></div>
-      <div class="dot dot-green"></div>
-      <span style="font-size: 0.75rem; color: #666; margin-left: 10px;">bash - 80x24</span>
+      <div class="dots"><div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div></div>
+      <span style="font-size:0.8rem; color:#888;">system_info.sh</span>
     </div>
-
-    <div class="card-grid">
-      <div class="card">
-        <h3>🧠 [0x01] BUILT_DIFFERENT</h3>
-        <p>On n'a pas réinventé la roue. On lui a juste injecté du code douteux et un masque de Guy Fawkes.</p>
+    <div class="grid-2">
+      <div class="card-item">
+        <h3>[01] LAXIRONIX ENGINE</h3>
+        <p>Un jeton conçu sur Solana pour une vitesse maximale et des frais minimes.</p>
       </div>
-      <div class="card">
-        <h3>🤝 [0x02] NO_VC_ALLOWED</h3>
-        <p>Zero advisors en costume. Juste une armée de degens qui spamment la touche Achat à 3h du matin.</p>
-      </div>
-      <div class="card">
-        <h3>⚡ [0x03] SOLANA_LATENCY</h3>
-        <p>Exécution si rapide que ton portefeuille aura brûlé du SOL avant que tu n'aies eu le temps de cligner des yeux.</p>
-      </div>
-      <div class="card">
-        <h3>🎭 [0x04] ZERO_PROMISES</h3>
-        <p>Garantie absolue de rien du tout. C'est le roadmap le plus honnête du Web3.</p>
+      <div class="card-item">
+        <h3>[02] 0% PROMISSORY</h3>
+        <p>Pas d'utilité bidon inventée par des consultants. Pure communauté.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="buy" class="container">
-  <div class="buy-box">
-    <h2 style="color:#14F195;">> INITIALIZE_SWAP</h2>
-    <p style="color: #bbb; margin-top: 10px;">
-      1. Siphonner du SOL vers ton wallet<br>
-      2. Forcer la transaction ci-dessous<br>
-      3. Devenir une légende ou un meme de l'histoire
-    </p>
-
-    <br>
-    <a href="https://pump.fun/YOUR_TOKEN_HERE" target="_blank" class="btn btn-main" style="font-size:1.1rem;">
-      🛒 [PUMP.FUN_DIRECT_LINK]
-    </a>
-
-    <div style="margin-top:25px;">
-      <p style="color:#888; font-size:0.85rem;">TARGET_CONTRACT_ADDRESS (CA):</p>
-      <div class="ca-box" onclick="navigator.clipboard.writeText(this.innerText); alert('CA Copied to clipboard!');">
-        PASTE_YOUR_CONTRACT_ADDRESS_HERE
-      </div>
-      <small style="color:#555;">(Cliquer pour copier dans le presse-papier)</small>
+  <section id="buy" class="terminal-box">
+    <div class="terminal-header">
+      <div class="dots"><div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div></div>
+      <span style="font-size:0.8rem; color:#888;">swap_contract.exe</span>
     </div>
-  </div>
-</section>
-
-<section id="roadmap" class="container">
-  <h2>EXECUTION_LOGS</h2>
-  <p class="section-desc">Un plan d'attaque conçu sur un coin de table pendant une coupure réseau.</p>
-
-  <div class="roadmap">
-    <div class="phase">
-      <div class="phase-number">[LOG_1]</div>
-      <div>
-        <h3 style="color:#fff;">Launch & Survival</h3>
-        <p style="color:#aaa;">Déploiement du token, injection de liquidité, et espoir que les bots ne tout cassent pas en 5 secondes.</p>
-      </div>
+    <p>Adresse du contrat (CA) - Cliquer pour copier :</p>
+    <div class="ca-display" id="caBox" onclick="copyCA()">PASTE_YOUR_LAXIRONIX_CONTRACT_ADDRESS_HERE</div>
+    <div class="btn-group" style="margin-top: 20px;">
+      <a href="https://pump.fun/" target="_blank" class="cyber-btn cyber-action">> OUVRIR PUMP.FUN</a>
     </div>
-    <div class="phase">
-      <div class="phase-number">[LOG_2]</div>
-      <div>
-        <h3 style="color:#fff;">Viral Injection</h3>
-        <p style="color:#aaa;">Memes, raids Twitter, bots Telegram. Si la courbe monte, on prétendra que tout était orchestré.</p>
-      </div>
+  </section>
+
+  <section id="roadmap" class="terminal-box">
+    <div class="terminal-header">
+      <div class="dots"><div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div></div>
+      <span style="font-size:0.8rem; color:#888;">roadmap.log</span>
     </div>
-    <div class="phase">
-      <div class="phase-number">[LOG_3]</div>
-      <div>
-        <h3 style="color:#fff;">Cyber Tools</h3>
-        <p style="color:#aaa;">Partenariats louches, bots qui envoient "gm" automatiquement sur Discord. Le futur est instable.</p>
-      </div>
+    <div class="card-item" style="margin-bottom:15px;">
+      <h3>PHASE 1 - Déploiement</h3>
+      <p>Lancement de Laxironix ($LAX) et activation du terminal.</p>
     </div>
-    <div class="phase">
-      <div class="phase-number">[LOG_4]</div>
-      <div>
-        <h3 style="color:#fff;">Moon or Segfault</h3>
-        <p style="color:#aaa;">Soit on prend le contrôle de la galaxie, soit on devient un avertissement dans la documentation.</p>
-      </div>
+    <div class="card-item">
+      <h3>PHASE 2 - Expansion</h3>
+      <p>Raid sur les réseaux et propagation des memes.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="community" class="container" style="text-align: center;">
-  <h2>JOIN_THE_NETWORK</h2>
-  <p class="section-desc">Rejoins le serveur avant qu'on ne se fasse couper les accès.</p>
-
-  <div style="margin-top:20px;">
-    <a href="https://x.com/Laxironix" target="_blank" class="btn btn-main">𝕏 / Twitter</a>
-    <a href="https://github.com/Laxironix" target="_blank" class="btn btn-outline">GitHub Protocol</a>
-  </div>
-</section>
-
-<footer class="container">
-  <p>System status: ALL_SYSTEMS_NOMINAL // Built with 💚 by $LAX dev</p>
-
-  <div style="margin-top:20px; font-size:0.75rem; color:#444; max-width:600px; margin-left:auto; margin-right:auto;">
-    [DISCLAIMER]: $LAX est un meme token à caractère récréatif. Aucune valeur financière intrinsèque. Ne mise pas l'argent de ton loyer.
-  </div>
-</footer>
+  <footer>
+    <p>Laxironix ($LAX) Protocol © 2026. Memecoin sans valeur intrinsèque.</p>
+  </footer>
+</div>
 
 <script>
-  console.log("%c[!] LAXIRONIX PROTOCOL ENGAGED 👀", "color:#14F195; font-size:16px; font-family:monospace; font-weight:bold;");
+  // --- Animation Arrière-plan Canvas ---
+  const canvas = document.getElementById('cyber-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const particles = Array.from({ length: 60 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.8,
+    vy: (Math.random() - 0.5) * 0.8,
+    size: Math.random() * 2 + 1
+  }));
+
+  function animateCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(20, 241, 149, 0.4)';
+    
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(animateCanvas);
+  }
+  animateCanvas();
+
+  // --- Synthétiseur Audio Web Audio API (Sons Doux Cyber) ---
+  let audioCtx = null;
+  let isAudioPlaying = false;
+  let synthInterval = null;
+
+  function initAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+
+  function playSoftNote() {
+    if (!audioCtx || !isAudioPlaying) return;
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    // Notes douces pentatoniques
+    const notes = [220, 247.5, 277.18, 329.63, 370.00];
+    const freq = notes[Math.floor(Math.random() * notes.length)];
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + 0.5);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.0);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 3.1);
+  }
+
+  function playClickSound() {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.08);
+
+    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.09);
+  }
+
+  document.getElementById('audioBtn').addEventListener('click', () => {
+    initAudio();
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    isAudioPlaying = !isAudioPlaying;
+    const btn = document.getElementById('audioBtn');
+    
+    if (isAudioPlaying) {
+      btn.innerText = '🔊 AUDIO: ACTIF';
+      synthInterval = setInterval(playSoftNote, 1800);
+    } else {
+      btn.innerText = '🔇 AUDIO: COUPÉ';
+      clearInterval(synthInterval);
+    }
+  });
+
+  document.querySelectorAll('.cyber-action, .nav-link').forEach(el => {
+    el.addEventListener('click', () => playClickSound());
+  });
+
+  function copyCA() {
+    const ca = document.getElementById('caBox').innerText;
+    navigator.clipboard.writeText(ca);
+    alert('Adresse du contrat Laxironix ($LAX) copiée !');
+  }
 </script>
 </body>
 </html>
