@@ -158,6 +158,47 @@
     -webkit-text-fill-color: transparent;
   }
 
+  /* Cyber Image Display Container */
+  .hero-image-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 25px 0 35px;
+  }
+
+  .hero-image-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    background: linear-gradient(45deg, var(--sol-green), var(--sol-purple), var(--cyber-blue));
+    border-radius: 12px;
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0.8;
+    animation: borderGlow 4s linear infinite alternate;
+  }
+
+  @keyframes borderGlow {
+    0% { filter: blur(10px) opacity(0.7); }
+    100% { filter: blur(20px) opacity(1); }
+  }
+
+  .hero-cyber-img {
+    max-width: 100%;
+    width: 320px;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid var(--sol-green);
+    box-shadow: 0 0 25px rgba(20, 241, 149, 0.5);
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .hero-cyber-img:hover {
+    transform: scale(1.03);
+    filter: brightness(1.1);
+  }
+
   .subtitle {
     font-size: 1.25rem;
     color: #b5b5c8;
@@ -359,20 +400,10 @@
     box-shadow: 0 0 25px var(--sol-green);
   }
 
-  .cursor-blink {
-    display: inline-block;
-    width: 8px;
-    height: 16px;
-    background: var(--sol-green);
-    animation: blink 0.8s infinite;
-    vertical-align: middle;
-  }
-
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .hero { padding: 40px 0; }
+    .hero-cyber-img { width: 240px; }
   }
 </style>
 </head>
@@ -408,6 +439,12 @@
 
     <div class="badge-status">> STATUS: SYSTEM_ONLINE // DEGEN_MODE_ACTIVE</div>
     <h1>Laxironix <span class="glitch-text">$LAX</span></h1>
+
+    <!-- Image download (1).jfif ajoutée ici avec effet cyber -->
+    <div class="hero-image-wrapper">
+      <img src="download (1).jfif" alt="Laxironix Art" class="hero-cyber-img">
+    </div>
+
     <p class="subtitle">The ultimate cyber-memecoin on Solana. Powered by zero promises, custom ambient synth, and raw blockchain energy.</p>
 
     <div class="btn-group">
